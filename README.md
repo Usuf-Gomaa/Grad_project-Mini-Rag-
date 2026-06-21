@@ -58,17 +58,17 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Streamlit Frontend                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ ChatGPT UI   │  │ SQL Chat     │  │ Enhanced UI  │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                    Streamlit Frontend                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │ ChatGPT UI   │  │ SQL Chat     │  │ Enhanced UI  │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
 └────────────────────────┬────────────────────────────────────┘
                          │ HTTP/REST API
 ┌────────────────────────▼────────────────────────────────────┐
-│                    FastAPI Backend (Port 8000)               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ NLP Routes   │  │ Data Routes  │  │ Base Routes  │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                    FastAPI Backend (Port 8000)              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │ NLP Routes   │  │ Data Routes  │  │ Base Routes  │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
 │  ┌──────────────┐  ┌──────────────┐                         │
 │  │  Controllers │  │  Models      │                         │
 │  └──────────────┘  └──────────────┘                         │
@@ -595,6 +595,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Star this repo if you find it useful!**
 
-Made with ❤️ by Hossam Medhat
+Made with ❤️ by USuf Gomaa
 
 </div>

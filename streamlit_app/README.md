@@ -390,7 +390,6 @@ This software is the property of e& Egypt and is intended for internal use only.
 
 <div align="center">
 
-**Made with ❤️ by e& Egypt**
 
 *Empowering Digital Transformation*
 
