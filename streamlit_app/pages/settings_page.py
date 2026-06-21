@@ -1,6 +1,6 @@
 """
 Settings Page
-Configure application settings and preferences
+Configure application settings and preferences for Lumora
 """
 
 import streamlit as st
@@ -13,27 +13,27 @@ def render():
     
     st.markdown(f"""
     <h1 style='color: {app_config.PRIMARY_COLOR};'>⚙️ Settings</h1>
-    <p style='font-size: 1.1rem; color: #6c757d;'>
-        Configure application settings and preferences
+    <p style='font-size: 1.1rem; color: #a5d6a7;'>
+        Configure computational parameters and system pipeline preferences
     </p>
     """, unsafe_allow_html=True)
     
     st.markdown("---")
     
     # Create tabs for different settings sections
-    tab1, tab2, tab3 = st.tabs(["🔌 API Configuration", "📊 Processing Defaults", "🎨 Display Settings"])
+    tab1, tab2, tab3 = st.tabs(["🔌 Core API Nodes", "📊 Vector Segmentation", "🎨 Visualization Identity"])
     
     # ========================================================================
     # TAB 1: API CONFIGURATION
     # ========================================================================
     with tab1:
-        st.markdown("### API Connection Settings")
+        st.markdown("### API Gateway Connection Settings")
         
         with st.form("api_settings_form"):
             api_base_url = st.text_input(
-                "API Base URL",
+                "FastAPI Backend Address",
                 value=st.session_state.get('api_base_url', app_config.API_BASE_URL),
-                help="Base URL for the FastAPI backend"
+                help="Base URL for the FastAPI computational backend serving RAG protocols"
             )
             
             st.markdown("---")
@@ -41,34 +41,34 @@ def render():
             col1, col2 = st.columns(2)
             
             with col1:
-                test_connection = st.form_submit_button("🔍 Test Connection")
+                test_connection = st.form_submit_button("🔍 PING Backend Node")
             
             with col2:
-                save_settings = st.form_submit_button("💾 Save Settings")
+                save_settings = st.form_submit_button("💾 Save Network Cluster")
             
             if test_connection:
-                with ui_components.show_loading("Testing connection..."):
+                with ui_components.show_loading("Testing pipeline latency..."):
                     import requests
                     try:
-                        response = requests.get(f"{api_base_url}/api/v1/health", timeout=5)
+                        response = requests.get(f"{api_base_url}/api/v1/", timeout=5)
                         if response.status_code == 200:
-                            ui_components.show_success("✅ Connection successful!")
+                            ui_components.show_success("✅ Gateway handshake successful! Cluster is online.")
                         else:
-                            ui_components.show_error(f"❌ Connection failed with status {response.status_code}")
+                            ui_components.show_error(f"❌ Handshake failed. HTTP Status: {response.status_code}")
                     except Exception as e:
-                        ui_components.show_error(f"❌ Connection failed: {str(e)}")
+                        ui_components.show_error(f"❌ Connection timeout: {str(e)}")
             
             if save_settings:
                 st.session_state.api_base_url = api_base_url
-                ui_components.show_success("Settings saved successfully!")
+                ui_components.show_success("Cluster nodes saved successfully!")
                 st.rerun()
         
         st.markdown("---")
-        st.markdown("### Current Configuration")
+        st.markdown("### Active Cluster Registry")
         
         config_info = {
-            "API Base URL": st.session_state.get('api_base_url', app_config.API_BASE_URL),
-            "Active Project ID": st.session_state.get('project_id', 1),
+            "Resolved API Route": st.session_state.get('api_base_url', app_config.API_BASE_URL),
+            "Tenant Project Cycle": st.session_state.get('project_id', 1),
         }
         
         for key, value in config_info.items():
@@ -82,11 +82,11 @@ def render():
     # TAB 2: PROCESSING DEFAULTS
     # ========================================================================
     with tab2:
-        st.markdown("### Document Processing Defaults")
+        st.markdown("### Neural Text Segmentation Options")
         
         ui_components.show_info(
-            "Set default values for document processing parameters. "
-            "These will be used as initial values in the upload & process page."
+            "Set optimal default boundaries for textual data chunking. "
+            "These hyper-parameters dictate the density of information injected into the LLM context window."
         )
         
         with st.form("processing_defaults_form"):
@@ -94,70 +94,70 @@ def render():
             
             with col1:
                 default_chunk_size = st.number_input(
-                    "Default Chunk Size",
+                    "Token/Character Chunk Size",
                     min_value=app_config.CHUNK_SIZE_MIN,
                     max_value=app_config.CHUNK_SIZE_MAX,
                     value=st.session_state.get('default_chunk_size', app_config.CHUNK_SIZE_DEFAULT),
                     step=100,
-                    help="Default size for text chunks"
+                    help="Character limit per individual embedding node inside Qdrant"
                 )
             
             with col2:
                 default_overlap_size = st.number_input(
-                    "Default Overlap Size",
+                    "Sliding Window Overlap Size",
                     min_value=app_config.OVERLAP_SIZE_MIN,
                     max_value=app_config.OVERLAP_SIZE_MAX,
                     value=st.session_state.get('default_overlap_size', app_config.OVERLAP_SIZE_DEFAULT),
                     step=50,
-                    help="Default overlap between chunks"
+                    help="Overlapping content to maintain structural semantics between adjacent chunks"
                 )
             
             st.markdown("---")
             
             default_search_limit = st.slider(
-                "Default Search Result Limit",
+                "Default Vector Inferences Limit (k)",
                 min_value=app_config.SEARCH_LIMIT_MIN,
                 max_value=app_config.SEARCH_LIMIT_MAX,
                 value=st.session_state.get('default_search_limit', app_config.SEARCH_LIMIT_DEFAULT),
-                help="Default number of search results to return"
+                help="Default number of similarity search matches to pull"
             )
             
             st.markdown("---")
             
-            if st.form_submit_button("💾 Save Defaults", use_container_width=True):
+            if st.form_submit_button("💾 Freeze Tokenization Parameters", use_container_width=True):
                 st.session_state.default_chunk_size = default_chunk_size
                 st.session_state.default_overlap_size = default_overlap_size
                 st.session_state.default_search_limit = default_search_limit
-                ui_components.show_success("Default settings saved!")
+                ui_components.show_success("Tokenization boundaries updated successfully!")
         
         st.markdown("---")
-        st.markdown("### Processing Recommendations")
+        st.markdown("### Agricultural Corpus Recommendations")
         
         recommendations = {
-            "General Documents": {
-                "Chunk Size": "1000-1500",
-                "Overlap": "200-300",
-                "Use Case": "Most text documents, articles, reports"
+            "Ecosystem & Aquaculture Textbooks": {
+                "Chunk Size": "1000-1200",
+                "Overlap": "200-250",
+                "Use Case": "Nitrogen cycle descriptions, biological criteria, filter mechanics"
             },
-            "Technical Documentation": {
+            "PLC Regs & Sensor Datasheets": {
                 "Chunk Size": "1500-2000",
-                "Overlap": "300-400",
-                "Use Case": "Code documentation, technical manuals"
+                "Overlap": "300-450",
+                "Use Case": "Modbus registers mapping, calibration equations, analog wiring codes"
             },
-            "Short Articles": {
+            "System Historical Run Logs": {
                 "Chunk Size": "500-800",
                 "Overlap": "100-150",
-                "Use Case": "News articles, blog posts"
+                "Use Case": "Daily diagnostic entries, automated error codes, telemetry readings"
             },
-            "Legal Documents": {
-                "Chunk Size": "2000-3000",
-                "Overlap": "400-500",
-                "Use Case": "Contracts, legal texts requiring full context"
+            "Academic Research Papers": {
+                "Chunk Size": "1200-1600",
+                "Overlap": "250-350",
+                "Use Case": "Nutrient solution formulas, lighting algorithms, crop yield reports"
             }
         }
         
         for doc_type, settings in recommendations.items():
-            with st.expander(f"📄 {doc_type}"):
+            with st.expander(f"🌿 {doc_type}"):
                 for key, value in settings.items():
                     st.markdown(f"**{key}:** {value}")
     
@@ -165,52 +165,52 @@ def render():
     # TAB 3: DISPLAY SETTINGS
     # ========================================================================
     with tab3:
-        st.markdown("### Display & UI Settings")
+        st.markdown("### Visual & Dashboard Dashboard Settings")
         
         with st.form("display_settings_form"):
             show_advanced_options = st.checkbox(
-                "Show Advanced Options by Default",
+                "Expand Engineering Options by Default",
                 value=st.session_state.get('show_advanced_options', False),
-                help="Display advanced options expanded by default"
+                help="Keep advanced computational panels visible at boot"
             )
             
             show_timestamps = st.checkbox(
-                "Show Timestamps in Chat History",
+                "Enable Temporal Ingestion Timestamps",
                 value=st.session_state.get('show_timestamps', True),
-                help="Display timestamps for each conversation"
+                help="Show exact execution times in system history expanders"
             )
             
             auto_expand_results = st.checkbox(
-                "Auto-expand First Search Result",
+                "Auto-expand Primary Vector Hit",
                 value=st.session_state.get('auto_expand_results', True),
-                help="Automatically expand the first result in search"
+                help="Instantly expand the most relevant chunk in semantic tabs"
             )
             
             enable_animations = st.checkbox(
-                "Enable Animations",
+                "Enable Ingestion Success Effects",
                 value=st.session_state.get('enable_animations', True),
-                help="Show balloons and other animations on success"
+                help="Trigger interface transitions when file parsing concludes"
             )
             
             st.markdown("---")
             
-            if st.form_submit_button("💾 Save Display Settings", use_container_width=True):
+            if st.form_submit_button("💾 Save Dashboard Configurations", use_container_width=True):
                 st.session_state.show_advanced_options = show_advanced_options
                 st.session_state.show_timestamps = show_timestamps
                 st.session_state.auto_expand_results = auto_expand_results
                 st.session_state.enable_animations = enable_animations
-                ui_components.show_success("Display settings saved!")
+                ui_components.show_success("Dashboard preferences locked!")
         
         st.markdown("---")
-        st.markdown("### Theme Information")
+        st.markdown("### Brand Color Space Information")
         
         st.markdown(f"""
-        **Current Theme:** {app_config.COMPANY_NAME} Corporate
+        **Active Palette Theme:** {app_config.COMPANY_NAME} Sustainable AI Identity
         
-        **Colors:**
-        - Primary: {app_config.PRIMARY_COLOR}
-        - Secondary: {app_config.SECONDARY_COLOR}
-        - Accent: {app_config.ACCENT_COLOR}
+        **Hex Codes Registry:**
+        - Primary Node Color: `{app_config.PRIMARY_COLOR}`
+        - Background Matrix Color: `{app_config.SECONDARY_COLOR}`
+        - Highlight Accent Color: `{app_config.ACCENT_COLOR}`
         """)
         
         # Color preview
@@ -220,7 +220,7 @@ def render():
             st.markdown(f"""
             <div style='background-color: {app_config.PRIMARY_COLOR}; padding: 2rem; 
                         border-radius: 10px; text-align: center; color: white;'>
-                <strong>Primary</strong>
+                <strong>Primary (Lumora Green)</strong>
             </div>
             """, unsafe_allow_html=True)
         
@@ -228,7 +228,7 @@ def render():
             st.markdown(f"""
             <div style='background-color: {app_config.SECONDARY_COLOR}; padding: 2rem; 
                         border-radius: 10px; text-align: center; color: white;'>
-                <strong>Secondary</strong>
+                <strong>Matrix (Dark Slate)</strong>
             </div>
             """, unsafe_allow_html=True)
         
@@ -236,38 +236,38 @@ def render():
             st.markdown(f"""
             <div style='background-color: {app_config.ACCENT_COLOR}; padding: 2rem; 
                         border-radius: 10px; text-align: center; color: white;'>
-                <strong>Accent</strong>
+                <strong>Accent (Bio Leaf)</strong>
             </div>
             """, unsafe_allow_html=True)
     
     st.markdown("---")
     
     # System information
-    st.markdown("### 📋 System Information")
+    st.markdown("### 📋 Static Operational Matrix")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown(f"""
-        **Application Version:** {app_config.APP_VERSION}  
-        **Company:** {app_config.COMPANY_NAME}  
-        **Year:** 2025
+        **System Firmware Version:** {app_config.APP_VERSION}  
+        **Project Identity:** {app_config.COMPANY_NAME} Systems  
+        **Deployment Year:** 2026
         """)
     
     with col2:
         st.markdown(f"""
-        **Max File Size:** {app_config.MAX_FILE_SIZE_MB} MB  
-        **Allowed Types:** {', '.join(app_config.ALLOWED_FILE_TYPES)}  
-        **Processing Batch Size:** {app_config.PROCESSING_BATCH_SIZE}
+        **Max Memory Buffer Payload:** {app_config.MAX_FILE_SIZE_MB} MB  
+        **Allowed Extractor Ingestions:** {', '.join(app_config.ALLOWED_FILE_TYPES).upper()}  
+        **Asynchronous Batch Queue:** {app_config.PROCESSING_BATCH_SIZE} points
         """)
     
     # Reset settings
     st.markdown("---")
-    st.markdown("### 🔄 Reset Settings")
+    st.markdown("### 🔄 Factory System Reset")
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("⚠️ Reset All Settings to Default", use_container_width=True):
+        if st.button("⚠️ Purge Parameters to Factory State", use_container_width=True):
             # Reset to defaults
             st.session_state.api_base_url = app_config.API_BASE_URL
             st.session_state.default_chunk_size = app_config.CHUNK_SIZE_DEFAULT
@@ -278,5 +278,5 @@ def render():
             st.session_state.auto_expand_results = True
             st.session_state.enable_animations = True
             
-            ui_components.show_success("All settings reset to default!")
+            ui_components.show_success("Cluster parameters initialized to factory settings!")
             st.rerun()

@@ -7,6 +7,12 @@ from stores.llm.templates.template_parser import TemplateParser
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
+# 🟢 [التصحيح السحري للمسار]: الاستيراد متطابق 100% مع لقطة الشاشة والهيكل الفعلي
+from models.db_schemes.minirag.schemes.minirag_base import SQLAlchemyBase
+from models.db_schemes.minirag.schemes.project import Project
+from models.db_schemes.minirag.schemes.asset import Asset
+from models.db_schemes.minirag.schemes.datachunk import DataChunk
+
 # Import metrics setup
 from utils.metrics import setup_metrics
 
@@ -24,6 +30,10 @@ async def startup_span():
     app.db_client = sessionmaker(
         app.db_engine, class_=AsyncSession, expire_on_commit=False
     )
+
+    # 🟢 إنشاء الجداول فوراً أول ما السيرفر يقوم في حاوية الـ Postgres
+    async with app.db_engine.begin() as conn:
+        await conn.run_sync(SQLAlchemyBase.metadata.create_all)
 
     llm_provider_factory = LLMProviderFactory(settings)
     vectordb_provider_factory = VectorDBProviderFactory(config=settings, db_client=app.db_client)
@@ -50,7 +60,7 @@ async def startup_span():
 
 
 async def shutdown_span():
-    app.db_engine.dispose()
+    await app.db_engine.dispose()
     await app.vectordb_client.disconnect()
 
 app.on_event("startup")(startup_span)

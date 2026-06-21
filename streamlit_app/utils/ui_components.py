@@ -1,6 +1,6 @@
 """
 UI Components Module
-Reusable UI components for the Streamlit app
+Reusable UI components for the Streamlit app - Lumora Edition
 """
 
 import streamlit as st
@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 def apply_custom_css():
-    """Apply custom CSS styling to the app"""
+    """Apply custom CSS styling to the app oriented for Lumora Agriculture branding"""
     
     css = f"""
     <style>
@@ -36,6 +36,7 @@ def apply_custom_css():
             border-radius: 10px;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--accent-color);
         }}
         
         .app-header h1 {{
@@ -53,67 +54,72 @@ def apply_custom_css():
         
         /* Card styling */
         .custom-card {{
-            background-color: white;
+            background-color: #1a1f2e;
             padding: 1.5rem;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
         }}
         
         /* Success message */
         .success-message {{
-            background-color: #d4edda;
+            background-color: rgba(46, 125, 50, 0.2);
             border-left: 4px solid #28a745;
             padding: 1rem;
             border-radius: 5px;
             margin: 1rem 0;
+            color: #fafafa;
         }}
         
         /* Error message */
         .error-message {{
-            background-color: #f8d7da;
+            background-color: rgba(244, 67, 54, 0.2);
             border-left: 4px solid #dc3545;
             padding: 1rem;
             border-radius: 5px;
             margin: 1rem 0;
+            color: #fafafa;
         }}
         
         /* Info message */
         .info-message {{
-            background-color: #d1ecf1;
-            border-left: 4px solid #0c5460;
+            background-color: rgba(12, 84, 96, 0.2);
+            border-left: 4px solid #00D9C0;
             padding: 1rem;
             border-radius: 5px;
             margin: 1rem 0;
+            color: #fafafa;
         }}
         
         /* Button styling */
         .stButton>button {{
-            background: linear-gradient(135deg, {app_config.PRIMARY_COLOR} 0%, #C0134F 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 0.5rem 2rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, {app_config.PRIMARY_COLOR} 0%, #1b5e20 100%) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 2rem !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3) !important;
         }}
         
         .stButton>button:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(227, 27, 109, 0.3);
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4) !important;
         }}
         
         /* File uploader */
         .uploadedFile {{
-            border: 2px dashed {app_config.PRIMARY_COLOR};
-            border-radius: 10px;
-            padding: 1rem;
+            border: 2px dashed {app_config.PRIMARY_COLOR} !important;
+            border-radius: 10px !important;
+            padding: 1rem !important;
         }}
         
         /* Metric styling */
         [data-testid="stMetricValue"] {{
             font-size: 2rem;
-            color: {app_config.PRIMARY_COLOR};
+            color: {app_config.ACCENT_COLOR};
         }}
         
         /* Sidebar styling */
@@ -129,9 +135,10 @@ def apply_custom_css():
         .app-footer {{
             text-align: center;
             padding: 2rem;
-            color: #6c757d;
-            border-top: 1px solid #dee2e6;
+            color: #a5d6a7;
+            border-top: 2px solid {app_config.PRIMARY_COLOR};
             margin-top: 3rem;
+            background: linear-gradient(180deg, transparent, rgba(46, 125, 50, 0.05));
         }}
         
         /* Progress bar */
@@ -141,9 +148,10 @@ def apply_custom_css():
         
         /* Expander */
         .streamlit-expanderHeader {{
-            background-color: #f8f9fa;
+            background-color: #1a1f2e !important;
             border-radius: 5px;
             font-weight: 600;
+            color: white !important;
         }}
         
         /* Chat message */
@@ -156,18 +164,22 @@ def apply_custom_css():
         }}
         
         .chat-message.user {{
-            background-color: #e3f2fd;
-            border-left: 4px solid #2196f3;
+            background-color: #263238;
+            border-left: 4px solid #4caf50;
         }}
         
         .chat-message.assistant {{
-            background-color: #f3e5f5;
+            background-color: #1a1f2e;
             border-left: 4px solid {app_config.PRIMARY_COLOR};
         }}
         
         .chat-message .icon {{
             font-size: 1.5rem;
             margin-right: 1rem;
+        }}
+        
+        .chat-message .content {{
+            color: #e8eef5;
         }}
         
         /* Tab styling */
@@ -178,14 +190,15 @@ def apply_custom_css():
         .stTabs [data-baseweb="tab"] {{
             height: 50px;
             padding: 0 2rem;
-            background-color: white;
+            background-color: #1a1f2e;
             border-radius: 10px 10px 0 0;
             font-weight: 600;
+            color: #d0d7e0;
         }}
         
         .stTabs [aria-selected="true"] {{
-            background-color: {app_config.PRIMARY_COLOR};
-            color: white;
+            background-color: {app_config.PRIMARY_COLOR} !important;
+            color: white !important;
         }}
     </style>
     """
@@ -194,11 +207,11 @@ def apply_custom_css():
 
 
 def render_header():
-    """Render the application header"""
+    """Render the application header with Lumora identity"""
     header_html = f"""
     <div class="app-header">
-        <h1>🤖 {app_config.APP_TITLE}</h1>
-        <p>Powered by {app_config.COMPANY_NAME} | {app_config.APP_VERSION}</p>
+        <h1>🌿 {app_config.APP_TITLE}</h1>
+        <p>Ecosystem Optimization Node | Secured via local RAG Stack</p>
     </div>
     """
     st.markdown(header_html, unsafe_allow_html=True)
@@ -208,9 +221,9 @@ def render_footer():
     """Render the application footer"""
     footer_html = f"""
     <div class="app-footer">
-        <p>© 2025 {app_config.COMPANY_NAME}. All rights reserved.</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-            Mini RAG System {app_config.APP_VERSION} | Built with ❤️ using Streamlit & FastAPI
+        <p>© 2026 {app_config.COMPANY_NAME} Smart Systems. All rights reserved.</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: #6c757d;">
+            Lumora Intelligent Matrix {app_config.APP_VERSION} | Built for Sustainable Agriculture Optimization
         </p>
     </div>
     """
@@ -218,15 +231,7 @@ def render_footer():
 
 
 def render_metric_card(title: str, value: str, icon: str = "📊", delta: Optional[str] = None):
-    """
-    Render a metric card
-    
-    Args:
-        title: Metric title
-        value: Metric value
-        icon: Icon emoji
-        delta: Optional delta value
-    """
+    """Render a metric card synchronized with active system bounds"""
     col1, col2 = st.columns([1, 4])
     with col1:
         st.markdown(f"<div style='font-size: 3rem; text-align: center;'>{icon}</div>", unsafe_allow_html=True)
@@ -235,90 +240,63 @@ def render_metric_card(title: str, value: str, icon: str = "📊", delta: Option
 
 
 def render_info_card(title: str, content: str, icon: str = "ℹ️"):
-    """
-    Render an info card
-    
-    Args:
-        title: Card title
-        content: Card content
-        icon: Icon emoji
-    """
+    """Render a styled information card"""
     card_html = f"""
     <div class="custom-card">
-        <h3>{icon} {title}</h3>
-        <p>{content}</p>
+        <h3 style="color: white; margin: 0 0 10px 0;">{icon} {title}</h3>
+        <p style="color: #d0d7e0; margin: 0;">{content}</p>
     </div>
     """
     st.markdown(card_html, unsafe_allow_html=True)
 
 
 def render_chat_message(role: str, content: str):
-    """
-    Render a chat message
-    
-    Args:
-        role: Message role (user or assistant)
-        content: Message content
-    """
+    """Render a chat message in the isolated matrix space"""
     icon = "👤" if role == "user" else "🤖"
     message_class = "user" if role == "user" else "assistant"
+    label = "Operator Query" if role == "user" else "Lumora Expert Insight"
     
     message_html = f"""
     <div class="chat-message {message_class}">
         <div class="icon">{icon}</div>
-        <div class="content">{content}</div>
+        <div class="content">
+            <strong style="color: var(--accent-color);">{label}:</strong>
+            <p style="margin: 5px 0 0 0;">{content}</p>
+        </div>
     </div>
     """
     st.markdown(message_html, unsafe_allow_html=True)
 
 
 def render_file_info(filename: str, filesize: float, filetype: str):
-    """
-    Render file information
-    
-    Args:
-        filename: File name
-        filesize: File size in KB
-        filetype: File type
-    """
+    """Render buffered file metrics"""
     info_html = f"""
     <div class="custom-card">
-        <h4>📄 {filename}</h4>
-        <p><strong>Size:</strong> {filesize:.2f} KB</p>
-        <p><strong>Type:</strong> {filetype}</p>
+        <h4 style="color: white; margin: 0 0 10px 0;">📄 {filename}</h4>
+        <p style="margin: 5px 0; color: #a5d6a7;"><strong>Buffer Size:</strong> {filesize:.2f} KB</p>
+        <p style="margin: 5px 0; color: #a5d6a7;"><strong>Data Stream Mime:</strong> {filetype}</p>
     </div>
     """
     st.markdown(info_html, unsafe_allow_html=True)
 
 
 def render_search_result(result: Dict[str, Any], index: int):
-    """
-    Render a search result
-    
-    Args:
-        result: Result dictionary
-        index: Result index
-    """
+    """Render a vector search hit result"""
     score = result.get('score', 0)
     text = result.get('chunk_text', '')
     metadata = result.get('chunk_metadata', {})
     
-    with st.expander(f"📝 Result {index} - Score: {score:.4f}"):
-        st.markdown(f"**Text:**")
+    with st.expander(f"📝 Resolved Point {index} - Cosine Similarity Score: {score:.4f}"):
+        st.markdown(f"**Segment Text:**")
         st.write(text)
         
         if metadata:
-            st.markdown(f"**Metadata:**")
+            st.markdown(f"**Payload Metadata:**")
             st.json(metadata)
 
 
 def show_loading(message: str = "Processing..."):
-    """
-    Show loading spinner with message
-    
-    Args:
-        message: Loading message
-    """
+    """Show loading spinner with message"""
     return st.spinner(message)
 
 
@@ -343,14 +321,7 @@ def show_info(message: str):
 
 
 def create_download_button(data: str, filename: str, label: str = "Download"):
-    """
-    Create a download button
-    
-    Args:
-        data: Data to download
-        filename: File name
-        label: Button label
-    """
+    """Create a download button"""
     st.download_button(
         label=label,
         data=data,

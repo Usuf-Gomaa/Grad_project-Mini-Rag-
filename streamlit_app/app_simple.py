@@ -1,9 +1,9 @@
 """
-Simple Mini RAG Streamlit App
-Replicates Postman API endpoints for FastAPI backend
+Lumora Smart Aquaponic System - API Client Node
+Replicates operational API endpoints for FastAPI computational backend
 """
 
-import streamlit as st
+import streamlit as st  # 🟢 تم التصحيح هنا: إضافة as بالملي
 import requests
 import json
 from typing import Optional, Dict, Any
@@ -16,8 +16,8 @@ import time
 # Default API base URL
 DEFAULT_API_BASE_URL = "http://127.0.0.1:8000"
 
-# Project ID (can be changed in sidebar)
-DEFAULT_PROJECT_ID = 26
+# 🟢 [تصحيح] تثبيت المشروع رقم 1 لمنع تضارب الـ 26 القديمة
+DEFAULT_PROJECT_ID = 1
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -54,16 +54,16 @@ def make_request(method: str, url: str, **kwargs) -> Dict[str, Any]:
                 "status_code": response.status_code
             }
     except requests.exceptions.Timeout:
-        return {"success": False, "error": "Request timed out (120s limit)"}
+        return {"success": False, "error": "Request timed out (120s latency threshold limit)"}
     except requests.exceptions.ConnectionError:
-        return {"success": False, "error": "Could not connect to API. Is the backend running?"}
+        return {"success": False, "error": "Could not connect to FastAPI node cluster. Is the backend server daemon running?"}
     except Exception as e:
         return {"success": False, "error": str(e)}
 
 def display_response(response: Dict[str, Any], title: str = "Response"):
-    """Display API response in a nice format"""
+    """Display API response in a nice format synchronized with Lumora palette"""
     if response.get("success"):
-        st.success(f"✅ {title} - Status {response.get('status_code', 200)}")
+        st.success(f"✅ {title} - Status {response.get('status_code', 200)} Handshake OK")
         
         data = response.get("data", {})
         
@@ -72,44 +72,44 @@ def display_response(response: Dict[str, Any], title: str = "Response"):
         
         # Add download button for response
         st.download_button(
-            label="💾 Download Response JSON",
+            label="💾 Download Response Payload JSON",
             data=json.dumps(data, indent=2),
-            file_name=f"response_{int(time.time())}.json",
+            file_name=f"lumora_api_response_{int(time.time())}.json",
             mime="application/json"
         )
     else:
-        st.error(f"❌ {title} Failed")
-        st.code(json.dumps(response.get("error", "Unknown error"), indent=2))
+        st.error(f"❌ {title} Protocol Failed")
+        st.code(json.dumps(response.get("error", "Unknown stack error"), indent=2))
         if "status_code" in response:
-            st.warning(f"Status Code: {response['status_code']}")
+            st.warning(f"Gateway Status Code: {response['status_code']}")
 
 # ============================================================================
 # PAGE CONFIGURATION
 # ============================================================================
 
 st.set_page_config(
-    page_title="Mini RAG API Client",
+    page_title="Lumora | API Gateway Hub",
     page_icon="🚀",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS for dark/green architecture visualization
 st.markdown("""
 <style>
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #E31B6D;
+        color: #4caf50;
         margin-bottom: 0.5rem;
     }
     .section-header {
         font-size: 1.8rem;
         font-weight: bold;
-        color: #0a0e27;
+        color: #ffffff;
         margin-top: 2rem;
         margin-bottom: 1rem;
-        border-bottom: 3px solid #E31B6D;
+        border-bottom: 3px solid #2e7d32;
         padding-bottom: 0.5rem;
     }
     .stButton>button {
@@ -117,13 +117,17 @@ st.markdown("""
         border-radius: 8px;
         font-weight: 600;
         transition: all 0.3s ease;
+        background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%) !important;
+        color: white !important;
+        border: none !important;
     }
     .stButton>button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(227, 27, 109, 0.3);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
     }
     div[data-testid="stExpander"] {
-        border: 2px solid #e0e0e0;
+        border: 2px solid #2e7d32;
+        background-color: #1a1f2e;
         border-radius: 8px;
         margin-bottom: 1rem;
     }
@@ -156,7 +160,7 @@ with st.sidebar:
     
     # Connection Test
     st.markdown("### 🔗 Connection Status")
-    if st.button("Test Connection", use_container_width=True):
+    if st.button("Test Connection", key="side_ping_btn"):
         with st.spinner("Testing..."):
             result = make_request("GET", f"{api_base_url}/api/v1/")
             if result.get("success"):
@@ -186,7 +190,7 @@ with st.sidebar:
 # ============================================================================
 
 # Header
-st.markdown('<div class="main-header">🚀 Mini RAG API Client</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🚀 Lumora REST API Controller</div>', unsafe_allow_html=True)
 st.markdown(f"**Current Project ID:** `{project_id}` | **API:** `{api_base_url}`")
 st.markdown("---")
 
@@ -512,10 +516,10 @@ with tab2:
                         st.markdown("---")
                         with st.expander("📄 View Full Context"):
                             st.markdown("**Full Prompt:**")
-                            st.text_area("Prompt", value=full_prompt, height=300, disabled=True)
+                            st.text_area("Prompt Data Matrix", value=full_prompt, height=300, disabled=True)
                             
                             if chat_history:
-                                st.markdown("**Chat History:**")
+                                st.markdown("**Token Array Memory History:**")
                                 st.json(chat_history)
                     
                     # Download Q&A
@@ -544,10 +548,10 @@ with tab2:
 
 st.markdown("---")
 st.markdown("""
-<div style='text-align: center; color: #6c757d; padding: 1rem;'>
-    <strong>Mini RAG API Client</strong> | 
-    Built with Streamlit 🎈 | 
-    FastAPI Backend 🚀
+<div style='text-align: center; color: #a5d6a7; padding: 1rem; background: linear-gradient(180deg, transparent, rgba(46, 125, 50, 0.05));'>
+    <strong>Lumora Computational Grid Gateway</strong> | 
+    Engineered via Streamlit Dashboards 🎈 | 
+    Asynchronous FastAPI Subsystem Clusters 🚀
 </div>
 """, unsafe_allow_html=True)
 
@@ -557,9 +561,9 @@ st.markdown("""
 
 with st.sidebar:
     st.markdown("---")
-    with st.expander("🐛 Debug Info"):
+    with st.expander("🐛 Cluster Debug Stack"):
         st.json({
-            "API Base URL": api_base_url,
-            "Project ID": project_id,
-            "Session State": dict(st.session_state)
+            "Active Gateway Host": api_base_url,
+            "Active Namespace Target ID": project_id,
+            "Local Session Cache Core": dict(st.session_state)
         })

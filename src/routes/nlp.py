@@ -62,10 +62,18 @@ async def index_project(request: Request, project_id: int, push_request: PushReq
 
     # setup batching
     total_chunks_count = await chunk_model.get_total_chunks_count(project_id=project.project_id)
+    
+    # 🟢 سطر الطباعة الأول: نشوف البوستجرس جواه كام chunk للمشروع ده أصلاً
+    print(f"\n📢 [DEBUG PUSH] Total chunks found in Postgres for Project ID {project.project_id} is: {total_chunks_count}")
+
     pbar = tqdm(total=total_chunks_count, desc="Vector Indexing", position=0)
 
     while has_records:
         page_chunks = await chunk_model.get_poject_chunks(project_id=project.project_id, page_no=page_no)
+        
+        # 🟢 سطر الطباعة الثاني: نشوف الصفحة الحالية سحبت كام chunk
+        print(f"📢 [DEBUG PUSH] Fetching page {page_no}.. Retrieved {len(page_chunks) if page_chunks else 0} chunks from DB.")
+
         if len(page_chunks):
             page_no += 1
         
@@ -81,6 +89,9 @@ async def index_project(request: Request, project_id: int, push_request: PushReq
             chunks=page_chunks,
             chunks_ids=chunks_ids
         )
+
+        # 🟢 سطر الطباعة الثالث: نشوف الـ Qdrant قبل الإدخال ولا لا
+        print(f"📢 [DEBUG PUSH] Qdrant insertion status for this batch: {is_inserted}")
 
         if not is_inserted:
             return JSONResponse(
@@ -166,6 +177,9 @@ async def search_index(request: Request, project_id: int, search_request: Search
 
 @nlp_router.post("/index/answer/{project_id}")
 async def answer_rag(request: Request, project_id: int, search_request: SearchRequest):
+    print(f"\n📢 [CHECK ROUTE] === Incoming RAG Request ===")
+    print(f"📢 [CHECK ROUTE] Project ID Sent from Frontend: {project_id}")
+    print(f"📢 [CHECK ROUTE] Search Text: '{search_request.text}', Limit: {search_request.limit}")
     
     project_model = await ProjectModel.create_instance(
         db_client=request.app.db_client
@@ -174,6 +188,7 @@ async def answer_rag(request: Request, project_id: int, search_request: SearchRe
     project = await project_model.get_project_or_create_one(
         project_id=project_id
     )
+    print(f"📢 [CHECK ROUTE] Verified Project ID in PostgreSQL DB: {project.project_id}")
 
     nlp_controller = NLPController(
         vectordb_client=request.app.vectordb_client,
@@ -182,13 +197,17 @@ async def answer_rag(request: Request, project_id: int, search_request: SearchRe
         template_parser=request.app.template_parser,
     )
 
+    print(f"📢 [CHECK ROUTE] Calling answer_rag_question pipeline...")
     answer, full_prompt, chat_history = await nlp_controller.answer_rag_question(
         project=project,
         query=search_request.text,
         limit=search_request.limit,
     )
 
+    print(f"📢 [CHECK ROUTE] Pipeline returned. Answer status is None? -> {answer is None}")
+
     if not answer:
+        print(f"❌ [CHECK ROUTE] Refused with 400 Bad Request because answer is empty/None!")
         return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content={
@@ -196,6 +215,7 @@ async def answer_rag(request: Request, project_id: int, search_request: SearchRe
                 }
         )
     
+    print(f"✅ [CHECK ROUTE] Success! Returning 200 with answer.")
     return JSONResponse(
         content={
             "signal": ResponseSignal.RAG_ANSWER_SUCCESS.value,

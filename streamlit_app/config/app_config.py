@@ -1,6 +1,6 @@
 """
 Application Configuration
-Centralized configuration for the Mini RAG Streamlit app
+Centralized configuration for the Lumora Smart Aquaponic System RAG app
 """
 
 import os
@@ -44,16 +44,16 @@ SEARCH_LIMIT_MAX = 20
 # UI CONFIGURATION
 # ============================================================================
 
-APP_TITLE = "Mini RAG System"
-COMPANY_NAME = "e& Egypt"
+APP_TITLE = "Lumora | Smart Aquaponic System"
+COMPANY_NAME = "Lumora"
 APP_VERSION = "v3.0"
 
-# Color scheme - e& Egypt branding
-PRIMARY_COLOR = "#E31B6D"  # e& magenta
-SECONDARY_COLOR = "#0a0e27"  # Dark blue
-ACCENT_COLOR = "#00D9C0"  # Teal
-BACKGROUND_COLOR = "#f8f9fa"
-TEXT_COLOR = "#1a1a1a"
+# Color scheme - Lumora Smart Aquaponic & Agriculture branding
+PRIMARY_COLOR = "#2e7d32"  # 🟢 الأخضر الزراعي الراقي (بدل الماجينتا)
+SECONDARY_COLOR = "#0e1117"  # 🟢 خلفية داكنة فخمة للـ Streamlit (بدل الكحلي)
+ACCENT_COLOR = "#4caf50"  # 🟢 الأخضر الفاتح الحيوي للـ Highlights
+BACKGROUND_COLOR = "#0f1419"
+TEXT_COLOR = "#fafafa"
 
 # ============================================================================
 # PROCESSING CONFIGURATION
@@ -66,35 +66,36 @@ PROCESSING_BATCH_SIZE = 10
 # ============================================================================
 
 WELCOME_MESSAGE = """
-Welcome to the **Mini RAG System** powered by **e& Egypt**! 
+Welcome to the **Lumora Smart Aquaponic System** powered by **Advanced AI & Automation**! 
 
-This intelligent document retrieval and question-answering system helps you:
-- 📤 Upload and process documents (PDF, TXT)
-- 🔍 Search through your document database
-- 💬 Get AI-powered answers to your questions
-- 📊 Manage multiple projects efficiently
+This intelligent document retrieval and sustainable agriculture question-answering system helps you:
+- 📤 Upload and process documents & research (PDF, TXT)
+- 🔍 Search through your agricultural knowledge base
+- 💬 Get AI-powered expert answers to your farming & system questions
+- 📊 Manage multiple system optimization projects efficiently
 """
 
 ABOUT_MESSAGE = """
-### About Mini RAG System
+### About Lumora Smart Aquaponic System
 
-The Mini RAG (Retrieval-Augmented Generation) System is a cutting-edge solution 
-developed by **e& Egypt** for intelligent document management and question answering.
+The Lumora RAG (Retrieval-Augmented Generation) System is a cutting-edge solution 
+developed for intelligent system management, sustainable agriculture, and smart farming optimization.
 
 #### Key Features:
-- **Document Processing**: Upload PDFs and text files with automatic chunking
-- **Vector Indexing**: Advanced semantic search using vector embeddings
-- **AI-Powered Q&A**: Get accurate answers from your documents
-- **Multi-Project Support**: Manage multiple document collections
-- **Real-time Processing**: Fast document processing and indexing
+- **Agricultural Document Processing**: Upload PDFs and text files with automatic chunking
+- **Semantic Vector Indexing**: Advanced semantic search using vector embeddings for farm data
+- **Expert AI-Powered Q&A**: Get highly accurate answers from your system research and documentation
+- **Multi-Project Support**: Manage multiple document collections and farming cycles
+- **Real-time Processing**: Fast document processing and instant knowledge retrieval
 
 #### Technology Stack:
 - **Backend**: FastAPI with async support
 - **Vector Database**: Qdrant for efficient similarity search
 - **LLM Integration**: OpenAI GPT & Cohere models
 - **Frontend**: Streamlit for interactive UI
+- **Automation & IoT**: Advanced monitoring & control logic integration
 
 #### Version: 3.0
-#### Company: e& Egypt
-#### Year: 2025
+#### Project: Lumora Smart Aquaponic System
+#### Year: 2026
 """

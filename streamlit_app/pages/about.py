@@ -1,6 +1,6 @@
 """
 About Page
-Information about the application and company
+Information about the application and project - Lumora
 """
 
 import streamlit as st
@@ -12,28 +12,26 @@ def render():
     """Render the about page"""
     
     st.markdown(f"""
-    <h1 style='color: {app_config.PRIMARY_COLOR};'>ℹ️ About Mini RAG System</h1>
-    <p style='font-size: 1.1rem; color: #6c757d;'>
-        Learn more about our intelligent document retrieval system
+    <h1 style='color: {app_config.PRIMARY_COLOR};'>ℹ️ About Lumora System</h1>
+    <p style='font-size: 1.1rem; color: #a5d6a7;'>
+        Learn more about our Intelligent Aquaponic RAG Assistant
     </p>
     """, unsafe_allow_html=True)
     
     st.markdown("---")
     
-    # Company logo and branding
+    # Project branding block
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        try:
-            st.image("assets/e_and_egypt_logo.png", width=300)
-        except:
-            st.markdown(f"""
-            <div style='text-align: center; padding: 2rem; background: linear-gradient(135deg, 
-                        {app_config.SECONDARY_COLOR} 0%, {app_config.PRIMARY_COLOR} 100%); 
-                        border-radius: 10px;'>
-                <h1 style='color: white; font-size: 4rem; margin: 0;'>e&</h1>
-                <p style='color: white; font-size: 1.5rem; margin: 0.5rem 0 0 0;'>Egypt</p>
-            </div>
-            """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style='text-align: center; padding: 2.5rem; background: linear-gradient(135deg, 
+                    {app_config.SECONDARY_COLOR} 0%, {app_config.PRIMARY_COLOR} 100%); 
+                    border-radius: 15px; border: 2px solid {app_config.ACCENT_COLOR};
+                    box-shadow: 0 8px 32px rgba(46, 125, 50, 0.2);'>
+            <h1 style='color: white; font-size: 4.5rem; font-weight: 900; margin: 0; letter-spacing: 4px;'>LUMORA</h1>
+            <p style='color: #a5d6a7; font-size: 1.3rem; margin: 0.5rem 0 0 0; font-weight: 600; letter-spacing: 2px;'>Smart Aquaponic Intelligence</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -49,33 +47,33 @@ def render():
     
     with col1:
         features_1 = [
-            ("📤", "Easy Document Upload", "Upload PDF and text files seamlessly"),
-            ("🔄", "Intelligent Processing", "Automatic text extraction and chunking"),
-            ("🎯", "Semantic Search", "Find information based on meaning, not just keywords"),
-            ("💬", "AI-Powered Q&A", "Get accurate answers from your documents")
+            ("📤", "Agricultural Research Upload", "Upload PDF, textbooks, and system manuals seamlessly"),
+            ("🔄", "Intelligent Chunking", "Automatic text extraction for complex scientific datasheets"),
+            ("🎯", "Semantic Retrieval", "Find aquaponic answers based on contextual agricultural meaning"),
+            ("💬", "Expert AI Q&A", "Get precise instructions for water chemistry, feeding, and pH balance")
         ]
         
         for icon, title, description in features_1:
             st.markdown(f"""
-            <div class="custom-card">
-                <h3>{icon} {title}</h3>
-                <p>{description}</p>
+            <div class="custom-card" style='background-color: #1a1f2e; padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid {app_config.ACCENT_COLOR};'>
+                <h4 style='margin:0; color: white;'>{icon} {title}</h4>
+                <p style='margin: 5px 0 0 0; color: #d0d7e0; font-size: 0.9rem;'>{description}</p>
             </div>
             """, unsafe_allow_html=True)
     
     with col2:
         features_2 = [
-            ("🗂️", "Multi-Project Support", "Manage multiple document collections"),
-            ("⚡", "Fast Processing", "Quick document processing and indexing"),
-            ("📊", "Real-time Analytics", "Monitor system status and usage"),
-            ("🔒", "Secure & Reliable", "Enterprise-grade security and reliability")
+            ("🗂️", "Multi-Cycle Support", "Manage different farming cycles and documentation groups"),
+            ("⚡", "Instant Sub-2s Response", "Get real-time troubleshooting answers for automation errors"),
+            ("📊", "System Health Monitoring", "Track API connectivity and database status in real-time"),
+            ("🔒", "Robust & Offline Ready", "Localized data architecture ensuring project confidentiality")
         ]
         
         for icon, title, description in features_2:
             st.markdown(f"""
-            <div class="custom-card">
-                <h3>{icon} {title}</h3>
-                <p>{description}</p>
+            <div class="custom-card" style='background-color: #1a1f2e; padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid {app_config.ACCENT_COLOR};'>
+                <h4 style='margin:0; color: white;'>{icon} {title}</h4>
+                <p style='margin: 5px 0 0 0; color: #d0d7e0; font-size: 0.9rem;'>{description}</p>
             </div>
             """, unsafe_allow_html=True)
     
@@ -88,56 +86,56 @@ def render():
     
     with col1:
         st.markdown("""
-        ### Backend
+        ### Backend Core
         - **FastAPI** - Modern async API framework
-        - **PostgreSQL** - Relational database
-        - **Qdrant** - Vector database
-        - **SQLAlchemy** - ORM
+        - **PostgreSQL** - Relational metadata database
+        - **Qdrant DB** - Advanced Vector Database
+        - **SQLAlchemy** - ORM Layer
         """)
     
     with col2:
         st.markdown("""
-        ### AI & ML
-        - **OpenAI GPT** - Text generation
-        - **Cohere** - Embeddings
-        - **LangChain** - RAG framework
-        - **Vector Search** - Semantic retrieval
+        ### AI & RAG Engine
+        - **OpenAI GPT Engine** - Generation client
+        - **Cohere Multilingual** - Semantic Embeddings
+        - **Custom RAG Pipelines** - Context-aware injection
+        - **Vector Search** - Metric distance matching
         """)
     
     with col3:
         st.markdown("""
-        ### Frontend
-        - **Streamlit** - Interactive UI
-        - **Python** - Core language
-        - **Custom CSS** - Styled components
-        - **Responsive Design** - Mobile-friendly
+        ### Frontend & Control
+        - **Streamlit** - Interactive UI dashboard
+        - **Python 3.8+** - Core language
+        - **Custom CSS** - Agriculture themed elements
+        - **Automation Synced** - Ready for IoT insights
         """)
     
     st.markdown("---")
     
     # Use cases
-    st.markdown("## 📚 Use Cases")
+    st.markdown("## 📚 Core System Use Cases")
     
     use_cases = [
         {
-            "title": "📖 Research & Knowledge Management",
-            "description": "Organize and query research papers, articles, and academic documents efficiently.",
-            "benefits": ["Quick information retrieval", "Citation finding", "Topic exploration"]
+            "title": "🌿 Hydroponic & Aquaculture Troubleshooting",
+            "description": "Instantly query manuals to manage water parameters, nitrogen cycles, and bio-filter tuning.",
+            "benefits": ["Immediate diagnostic lookups", "Optimized feeding ratio calculation", "Algae control guides"]
         },
         {
-            "title": "📄 Document Analysis",
-            "description": "Analyze contracts, reports, and business documents with AI assistance.",
-            "benefits": ["Key point extraction", "Summary generation", "Compliance checking"]
+            "title": "⚙️ Hardware & PLC Automation Manuals",
+            "description": "Index technical sheets for microcontrollers, sensors (pH, EC, Temp), and PLC registers.",
+            "benefits": ["Pinout and wiring reference lookup", "MQTT/Modbus protocol explanations", "Calibration steps retrieval"]
         },
         {
-            "title": "💼 Customer Support",
-            "description": "Build internal knowledge bases for customer support teams.",
-            "benefits": ["Instant answer lookup", "Consistent responses", "Training material"]
+            "title": "📈 Crop Yield & Sustainable Research",
+            "description": "Query localized academic papers to enhance plant growth and nutrient solutions.",
+            "benefits": ["Dynamic deficiency analysis", "Optimal light cycle insights", "Water-saving configurations"]
         },
         {
-            "title": "📚 Educational Content",
-            "description": "Create interactive learning materials and Q&A systems.",
-            "benefits": ["Student assistance", "Content discovery", "Study aids"]
+            "title": "📊 Historical Operations Data",
+            "description": "Query internal project logs to compare current cycle trends with older ones.",
+            "benefits": ["Cycle performance review", "Anomalies cross-referencing", "Maintenance logs finder"]
         }
     ]
     
@@ -150,130 +148,124 @@ def render():
     
     st.markdown("---")
     
-    # Architecture diagram (text-based)
+    # Architecture diagram
     st.markdown("## 🏗️ System Architecture")
     
     architecture_diagram = """
-    ```
-    ┌─────────────────────────────────────────────────────────────┐
-    │                     User Interface (Streamlit)               │
-    │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-    │  │  Upload  │  │ Process  │  │  Search  │  │   Q&A    │   │
-    │  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-    └────────────────────────────┬────────────────────────────────┘
-                                 │ REST API
-    ┌────────────────────────────┴────────────────────────────────┐
-    │                    FastAPI Backend                           │
-    │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-    │  │    Routes    │  │ Controllers  │  │    Models    │     │
-    │  └──────────────┘  └──────────────┘  └──────────────┘     │
-    └───┬────────────┬────────────┬────────────┬──────────────────┘
-        │            │            │            │
-    ┌───┴───┐    ┌───┴───┐    ┌───┴────┐   ┌──┴──────┐
-    │ Files │    │  LLM  │    │ Vector │   │  PostgreSQL│
-    │Storage│    │ APIs  │    │   DB   │   │  Database │
-    └───────┘    └───────┘    └────────┘   └───────────┘
-                  (OpenAI,     (Qdrant)
-                   Cohere)
-    ```
-    """
-    
+┌─────────────────────────────────────────────────────────────┐
+│                 Lumora Interface Dashboard (Streamlit)      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
+│  │  Upload  │  │ Process  │  │  Search  │  │   Q&A    │     │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘     │
+└────────────────────────────┬────────────────────────────────┘
+                             │ REST API
+┌────────────────────────────┴────────────────────────────────┐
+│                        FastAPI Backend                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │    Routes    │  │ Controllers  │  │    Models    │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+└───┬────────────┬────────────┬────────────┬──────────────────┘
+    │            │            │            │
+┌───┴───┐    ┌───┴───┐    ┌───┴────┐   ┌───┴───────┐
+│ Files │    │  LLM  │    │ Vector │   │ PostgreSQL│
+│Storage│    │ APIs  │    │   DB   │   │ Database  │
+└───────┘    └───────┘    └────────┘   └───────────┘
+              (OpenAI,     (Qdrant)    (Project Logs)
+               Cohere)
+"""
+
     st.code(architecture_diagram, language=None)
-    
+
     st.markdown("---")
-    
+
     # Metrics and stats
     st.markdown("## 📊 System Capabilities")
-    
+
     col1, col2, col3, col4 = st.columns(4)
-    
+
     with col1:
         ui_components.render_metric_card(
-            title="Supported Files",
+            title="Supported Formats",
             value="PDF, TXT",
             icon="📄"
         )
-    
+
     with col2:
         ui_components.render_metric_card(
-            title="Max File Size",
+            title="Max Document Size",
             value=f"{app_config.MAX_FILE_SIZE_MB} MB",
             icon="💾"
         )
-    
+
     with col3:
         ui_components.render_metric_card(
-            title="Languages",
-            value="Multi",
+            title="Language Support",
+            value="Multilingual",
             icon="🌍"
         )
-    
+
     with col4:
         ui_components.render_metric_card(
-            title="API Response",
+            title="Retrieval Speed",
             value="< 2s",
             icon="⚡"
         )
-    
+
     st.markdown("---")
-    
+
     # Contact and support
-    st.markdown("## 📞 Support & Contact")
-    
+    st.markdown("## 📞 System Support & Context")
+
     col1, col2 = st.columns(2)
-    
+
     with col1:
-        st.markdown("""
-        ### 🏢 Company Information
-        **e& Egypt**  
-        Digital Solutions Provider  
+        st.markdown(f"""
+        ### 🏢 Project Vision
+        **{app_config.COMPANY_NAME} Smart Systems**  
+        Next-Gen Sustainable Automation  
         
-        Empowering digital transformation through innovative technology solutions.
+        Empowering eco-friendly agricultural transformation through AI-driven expert insight systems.
         """)
-    
+
     with col2:
         st.markdown("""
-        ### 📧 Get in Touch
-        - **Website:** [www.e-and.com](https://www.e-and.com)
-        - **Support:** Contact your system administrator
-        - **Documentation:** Available in the Help section
+        ### 📧 Engineering Core
+        - **System Administration:** Contact the Lumora Project Lead
+        - **Documentation:** Built-in RAG Assistant Help Module
+        - **Deployment:** Powered by Docker Compose Local Stack
         """)
-    
+
     st.markdown("---")
-    
+
     # Version history
-    with st.expander("📝 Version History"):
+    with st.expander("📝 System Iteration History"):
         st.markdown("""
         ### Version 3.0 (Current)
-        - Complete UI redesign with modern interface
-        - Enhanced chat history and search functionality
-        - Improved error handling and user feedback
-        - Advanced settings and configuration options
-        - Better mobile responsiveness
+        - Complete UI redesign oriented for Lumora branding
+        - Upgraded to modern Pydantic Settings & FastAPI lifespan contexts
+        - Advanced settings and vector configuration options
+        - Enhanced localized search capabilities for farming data
         
         ### Version 2.0
-        - Added multi-project support
-        - Improved document processing
-        - Enhanced vector search capabilities
+        - Added multi-project isolation filters
+        - Structured chunk parser upgrades
         
         ### Version 1.0
-        - Initial release
-        - Basic upload and Q&A functionality
-        - PDF and TXT support
+        - Initial RAG baseline architecture
         """)
-    
+
     st.markdown("---")
-    
+
     # Footer credits
     st.markdown(f"""
     <div style='text-align: center; padding: 2rem; background-color: {app_config.BACKGROUND_COLOR}; 
                 border-radius: 10px; margin-top: 2rem;'>
-        <h3 style='color: {app_config.PRIMARY_COLOR};'>Mini RAG System {app_config.APP_VERSION}</h3>
-        <p style='color: #6c757d; margin-top: 1rem;'>
-            Developed with ❤️ by {app_config.COMPANY_NAME}
+        <h3 style='color: {app_config.PRIMARY_COLOR};'>Lumora Intelligence System {app_config.APP_VERSION}</h3>
+        <p style='color: #a5d6a7; margin-top: 1rem;'>
+            Developed with ❤️ for Sustainable Agriculture Optimization
         </p>
         <p style='color: #6c757d; font-size: 0.9rem;'>
-            © 2025 All Rights Reserved
+            © 2026 All Rights Reserved
         </p>
     </div>
     """, unsafe_allow_html=True)

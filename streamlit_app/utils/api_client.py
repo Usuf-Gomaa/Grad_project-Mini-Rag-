@@ -1,6 +1,6 @@
 """
 API Client Module
-Handles all API communication with the FastAPI backend
+Handles all API communication with the FastAPI backend for Lumora
 """
 
 import requests
@@ -40,16 +40,17 @@ class APIClient:
                 self._connection_verified = True
                 return True
             else:
-                st.warning(f"⚠️ API returned status {response.status_code}. Requests may fail.")
+                st.warning(f"⚠️ API cluster returned status {response.status_code}. Requests may fail.")
                 return False
         except requests.exceptions.ConnectionError:
+            # 🟢 تم تقفيل علامات التنصيص والمحاذاة هنا بالمسطرة لمنع الـ SyntaxError تماماً
             st.error(
-                f"❌ **Cannot connect to FastAPI backend at `{self.base_url}`**\n\n"
-                f"**Troubleshooting:**\n"
-                f"1. Make sure the FastAPI backend is running on `{self.base_url}`\n"
-                f"2. For local development, use `http://127.0.0.1:8000`\n"
-                f"3. For Docker, use `http://fastapi:8000`\n\n"
-                f"**Start the backend with:**\n"
+                f"❌ **Cannot connect to FastAPI backend node at `{self.base_url}`**\n\n"
+                f"**Troubleshooting Blueprint:**\n"
+                f"1. Make sure the FastAPI core backend execution is active on `{self.base_url}`\n"
+                f"2. For local development ecosystem, ensure the target is `http://127.0.0.1:8000`\n"
+                f"3. For Docker containers stack, route via `http://fastapi:8000`\n\n"
+                f"**Initialize backend container/runtime with:**\n"
                 f"```bash\n"
                 f"cd src\n"
                 f"python main.py\n"
@@ -57,10 +58,10 @@ class APIClient:
             )
             return False
         except requests.exceptions.Timeout:
-            st.error(f"⏱️ Connection timeout to {self.base_url}")
+            st.error(f"⏱️ Network latency timeout to node {self.base_url}")
             return False
         except Exception as e:
-            st.error(f"❌ Connection check failed: {str(e)}")
+            st.error(f"❌ Core runtime connection check failed: {str(e)}")
             return False
     
     def _handle_response(self, response: requests.Response) -> Dict[str, Any]:
@@ -83,18 +84,18 @@ class APIClient:
                 signal = error_data.get('signal', 'unknown_error')
                 detail = error_data.get('detail', str(e))
                 
-                # Map common error signals to user-friendly messages
+                # Map common error signals to user-friendly messages oriented for Lumora
                 error_messages = {
-                    'rag_answer_error': '❌ Could not generate answer. The index may be empty or documents not indexed.',
-                    'project_not_found_error': '❌ Project not found. Please check the project ID.',
-                    'file_upload_failed': '❌ File upload failed. Check file format and size.',
-                    'processing_failed': '❌ Document processing failed. Check file content.',
-                    'vectordb_search_error': '❌ Search failed. The index may not be built yet.',
-                    'no_files_error': '❌ No files found to process. Upload files first.',
-                    'file_id_error': '❌ Invalid file ID. The file may not exist.',
+                    'rag_answer_error': '❌ Could not generate expert insight. The target Qdrant index space may be empty.',
+                    'project_not_found_error': '❌ Cycle registry space not found. Please verify the Project ID.',
+                    'file_upload_failed': '❌ Buffer parsing failed. Verify document compilation metrics.',
+                    'processing_failed': '❌ Neural segmentation failed. Check structural file constraints.',
+                    'vectordb_search_error': '❌ Similarity lookup failed. Qdrant cluster index is not built yet.',
+                    'no_files_error': '❌ No data layers discovered in buffer. Ingest files to repository first.',
+                    'file_id_error': '❌ Invalid operational node hash. The requested corpus block does not exist.',
                 }
                 
-                error_msg = error_messages.get(signal, f"❌ API Error: {detail}")
+                error_msg = error_messages.get(signal, f"❌ Pipeline Node Error: {detail}")
                 st.error(error_msg)
                 
                 return {
@@ -105,7 +106,7 @@ class APIClient:
                 }
             except ValueError:
                 # Response is not JSON
-                error_msg = f"❌ HTTP {response.status_code}: {response.text[:200]}"
+                error_msg = f"❌ Gateway HTTP {response.status_code}: {response.text[:200]}"
                 st.error(error_msg)
                 return {
                     "error": str(e),
@@ -114,17 +115,17 @@ class APIClient:
                 }
         except requests.exceptions.ConnectionError as e:
             error_msg = (
-                f"❌ **Connection Failed**\n\n"
-                f"Cannot reach FastAPI at `{self.base_url}`\n\n"
-                f"Make sure the backend is running."
+                f"❌ **Subsystem Gateway Failure**\n\n"
+                f"Cannot establish socket payload delivery to FastAPI routing paths at `{self.base_url}`\n\n"
+                f"Ensure the backend server daemon is initialized."
             )
             st.error(error_msg)
             return {"error": "Connection failed", "success": False}
         except requests.exceptions.Timeout:
-            st.error("⏱️ Request timed out. The operation may take longer than expected.")
+            st.error("⏱️ Stream execution timed out. Complex regex text indexing may require more processing latency.")
             return {"error": "Timeout", "success": False}
         except Exception as e:
-            st.error(f"❌ Unexpected Error: {str(e)}")
+            st.error(f"❌ Unexpected Subsystem Exception: {str(e)}")
             return {"error": str(e), "success": False}
     
     def upload_file(self, project_id: int, file: BytesIO, filename: str) -> Dict[str, Any]:
@@ -243,8 +244,6 @@ class APIClient:
             - collection_info: Dictionary with vector count, dimensions, etc.
             - signal: Response signal from API
         """
-        # Connection verification is optional for GET requests
-        # as they're usually less critical
         try:
             url = f"{self.base_url}/api/v1/nlp/index/info/{project_id}"
             response = requests.get(url, timeout=30)
@@ -276,7 +275,7 @@ class APIClient:
             
             # IMPORTANT: Backend expects "text" field, NOT "query"
             payload = {
-                "text": query,  # Must be "text" not "query"!
+                "text": query,
                 "limit": limit
             }
             
@@ -314,22 +313,21 @@ class APIClient:
             url = f"{self.base_url}/api/v1/nlp/index/answer/{project_id}"
             
             # IMPORTANT: Backend expects "text" field, NOT "query"
-            # This matches the SearchRequest Pydantic model in src/routes/schemes/nlp.py
             payload = {
-                "text": question,  # Must be "text" not "query"!
+                "text": question,
                 "limit": limit
             }
             
             # Optional debug logging
             if debug_mode:
-                st.info(f"🔍 **Debug Info:**\n- Endpoint: `{url}`\n- Payload: `{payload}`")
+                st.info(f"🔍 **Pipeline Feedback:**\n- Node Endpoint: `{url}`\n- Dynamic Payload: `{payload}`")
             
             logger.debug(f"Asking question with payload: {payload}")
             
             response = requests.post(url, json=payload, timeout=90)
             
             if debug_mode:
-                st.info(f"📡 **Response Status:** {response.status_code}")
+                st.info(f"📡 **Gateway Signal Response:** {response.status_code}")
             
             return self._handle_response(response)
         except Exception as e:
@@ -344,17 +342,14 @@ class APIClient:
             True if API is healthy, False otherwise
         """
         try:
-            # Backend has /api/v1/ endpoint, not /api/v1/health
             url = f"{self.base_url}/api/v1/"
             response = requests.get(url, timeout=5)
             return response.status_code == 200
         except:
             return False
 
-
 # Create singleton instance
 api_client = APIClient()
-
 
 def check_api_health() -> bool:
     """Check API health status"""

@@ -31,7 +31,9 @@ class NLPController(BaseController):
     
     async def get_vector_db_collection_info(self, project: Project):
         collection_name = self.create_collection_name(project_id=project.project_id)
-        collection_info = await self.vectordb_client.get_collection_info(collection_name=collection_name)
+        
+        # 🟢 [التصحيح السحري]: شيلنا الـ await لأن الدالة متزامنة (Synchronous)
+        collection_info = self.vectordb_client.get_collection_info(collection_name=collection_name)
 
         return json.loads(
             json.dumps(collection_info, default=lambda x: x.__dict__)
@@ -69,30 +71,42 @@ class NLPController(BaseController):
         return True
 
     async def search_vector_db_collection(self, project: Project, text: str, limit: int = 10):
+        print(f"\n🔍 [CHECK VECTOR SEARCH] === Start Search Vector DB ===")
+        print(f"🔍 [CHECK VECTOR SEARCH] Target Project ID: {project.project_id}")
 
         # step1: get collection name
         query_vector = None
         collection_name = self.create_collection_name(project_id=project.project_id)
+        print(f"🔍 [CHECK VECTOR SEARCH] Generated Collection Name: '{collection_name}'")
 
         # step2: get text embedding vector
+        print(f"🔍 [CHECK VECTOR SEARCH] Calling embedding_client.embed_text...")
         vectors = self.embedding_client.embed_text(text=text, 
                                                  document_type=DocumentTypeEnum.QUERY.value)
 
         if not vectors or len(vectors) == 0:
+            print(f"❌ [CHECK VECTOR SEARCH] Embedding FAILED! vectors is empty or None.")
             return False
         
         if isinstance(vectors, list) and len(vectors) > 0:
             query_vector = vectors[0]
+            print(f"🔍 [CHECK VECTOR SEARCH] Vector extracted. Dimensions length: {len(query_vector) if query_vector else 0}")
 
         if not query_vector:
+            print(f"❌ [CHECK VECTOR SEARCH] query_vector is None!")
             return False    
 
         # step3: do semantic search
+        print(f"🔍 [CHECK VECTOR SEARCH] Querying Qdrant via search_by_vector...")
         results = await self.vectordb_client.search_by_vector(
             collection_name=collection_name,
             vector=query_vector,
             limit=limit
         )
+
+        print(f"🔍 [CHECK VECTOR SEARCH] Qdrant Raw Response: {results}")
+        print(f"🔍 [CHECK VECTOR SEARCH] Total matched chunks returned: {len(results) if results else 0}")
+        print(f"🔍 [CHECK VECTOR SEARCH] === End Search Vector DB ===\n")
 
         if not results:
             return False
@@ -100,20 +114,25 @@ class NLPController(BaseController):
         return results
     
     async def answer_rag_question(self, project: Project, query: str, limit: int = 10):
-        
+        print(f"\n🔮 [CHECK CONTROLLER] Inside answer_rag_question core...")
         answer, full_prompt, chat_history = None, None, None
 
         # step1: retrieve related documents
+        print(f"🔮 [CHECK CONTROLLER] Step 1: Querying Qdrant index for Project {project.project_id}...")
         retrieved_documents = await self.search_vector_db_collection(
             project=project,
             text=query,
             limit=limit,
         )
+        
+        print(f"🔮 [CHECK CONTROLLER] Qdrant search finished. Found documents count: {len(retrieved_documents) if retrieved_documents else 0}")
 
         if not retrieved_documents or len(retrieved_documents) == 0:
+            print(f"⚠️ [CHECK CONTROLLER] Qdrant returned ZERO documents! Returning None early and triggering 400!")
             return answer, full_prompt, chat_history
         
         # step2: Construct LLM prompt
+        print(f"🔮 [CHECK CONTROLLER] Step 2: Constructing templates...")
         system_prompt = self.template_parser.get("rag", "system_prompt")
 
         documents_prompts = "\n".join([
@@ -129,6 +148,7 @@ class NLPController(BaseController):
         })
 
         # step3: Construct Generation Client Prompts
+        print(f"🔮 [CHECK CONTROLLER] Step 3: Setting chat history structures...")
         chat_history = [
             self.generation_client.construct_prompt(
                 prompt=system_prompt,
@@ -137,13 +157,21 @@ class NLPController(BaseController):
         ]
 
         full_prompt = "\n\n".join([ documents_prompts,  footer_prompt])
+        print(f"🔮 [CHECK CONTROLLER] Prompt compiled successfully. Length: {len(full_prompt)} chars.")
 
         # step4: Retrieve the Answer
-        answer = self.generation_client.generate_text(
-            prompt=full_prompt,
-            chat_history=chat_history
-        )
+        print(f"🔮 [CHECK CONTROLLER] Step 4: Invoking LLM text generation model...")
+        try:
+            answer = self.generation_client.generate_text(
+                prompt=full_prompt,
+                chat_history=chat_history
+            )
+            print(f"🔮 [CHECK CONTROLLER] LLM successfully replied! Response length: {len(answer) if answer else 0}")
+        except Exception as e:
+            print(f"💥 [CHECK CONTROLLER] CRASH DURING LLM TEXT GENERATION: {str(e)}")
+            raise e
 
+        print(f"🔮 [CHECK CONTROLLER] Execution finished smoothly.\n")
         return answer, full_prompt, chat_history
 
     def search_web(self, query: str, max_results: int = 3):
@@ -155,8 +183,6 @@ class NLPController(BaseController):
             }
         
         try:
-            # Use backend='api' to avoid rate limiting issues
-            # Try multiple times with different backends if rate limited
             backends = ['api', 'html', 'lite']
             last_error = None
             
@@ -179,7 +205,6 @@ class NLPController(BaseController):
                     last_error = str(e)
                     continue
             
-            # If all backends fail, return error
             return {
                 "success": False,
                 "error": f"All search backends failed. Last error: {last_error}"
@@ -206,13 +231,11 @@ class NLPController(BaseController):
         
         logger.info(f"Web search successful, found {len(search_results['results'])} results")
         
-        # Format search results for LLM
         results_text = "\n\n".join([
             f"Source {i+1}: {r['title']}\n{r['body']}\nURL: {r['href']}"
             for i, r in enumerate(search_results["results"])
         ])
         
-        # Generate answer from search results
         system_prompt = "You are a helpful assistant. Answer the question using the provided web search results."
         
         full_prompt = f"""Web Search Results:
@@ -239,5 +262,3 @@ Answer the question using the information from the search results above. Include
         logger.info(f"LLM answer generated, length: {len(answer) if answer else 0}")
         
         return answer, search_results["results"]
-
-

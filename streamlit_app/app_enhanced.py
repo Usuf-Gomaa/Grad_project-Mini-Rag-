@@ -1,7 +1,7 @@
 """
-Mini RAG System - Professional Dashboard (Enhanced Version)
-Advanced UI/UX with e& Egypt branding
-Powered by Hossam Medhat for e& Egypt
+Lumora Smart Aquaponic System - Professional Dashboard (Enhanced Version)
+Advanced UI/UX with Lumora Agriculture Branding
+Powered by Automation and AI Integration
 
 This is the production-ready version with enhanced UI/UX while maintaining
 all working logic from streamlit_app_version2.py
@@ -77,30 +77,29 @@ def ask_question(project_id: int, search_request: SearchRequest):
     return response.json()
 
 # ============================================================================
-# UI HELPER FUNCTIONS (New - Enhanced UX)
+# UI HELPER FUNCTIONS (New - Enhanced UX with Lumora Theme)
 # ============================================================================
 
 def render_header():
-    """Render the app header with e& branding"""
+    """Render the app header with Lumora branding"""
     col1, col2, col3 = st.columns([1, 3, 1])
     
     with col1:
-        # Check if logo exists, if not show placeholder
-        logo_path = "assets/e_and_egypt_logo.png"
+        logo_path = "assets/lumora_logo.png"
         if os.path.exists(logo_path):
             st.image(logo_path, width=250)
         else:
-            st.markdown("# 🎯 e&")
+            st.markdown("<h1 style='color: #4caf50; margin-top: 15px;'>🌿 LUMORA</h1>", unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div style='text-align: center; padding: 20px;'>
-            <h1 style='color: #E31B6D; margin: 0;'>Mini RAG System</h1>
-            <p style='color: #6c757d; font-size: 1.1rem; margin: 5px 0;'>
-                Intelligent Document Processing & AI-Powered Q&A
+            <h1 style='color: #ffffff; margin: 0; font-size: 2.5rem; font-weight: 800;'>Lumora Advanced Matrix</h1>
+            <p style='color: #a5d6a7; font-size: 1.1rem; margin: 5px 0;'>
+                Intelligent Corpus Processing & AI-Powered Aquaponic Inferences
             </p>
-            <p style='color: #6c757d; font-size: 1.1rem; margin: 5px 0;'>
-                Powered by Hossam Medhat for e& Egypt
+            <p style='color: #6c757d; font-size: 0.95rem; margin: 5px 0;'>
+                Secured Local RAG Computational Infrastructure
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -110,7 +109,7 @@ def render_header():
         <div style='text-align: right; padding: 10px;'>
             <p style='color: #6c757d; font-size: 0.9rem; margin: 0;'>
                 Version 3.0<br>
-                Advanced UI
+                Production UI
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -119,27 +118,27 @@ def render_footer():
     """Render the app footer with credits"""
     st.markdown("---")
     st.markdown("""
-    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #E31B6D 0%, #0a0e27 100%); 
-                border-radius: 10px; margin-top: 30px;'>
+    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #11141a 0%, #2e7d32 100%); 
+                border-radius: 10px; margin-top: 30px; border: 1px solid #4caf50;'>
         <p style='color: white; font-size: 1rem; margin: 5px 0; font-weight: 600;'>
-            🚀 Powered by <strong>Hossam Medhat</strong> for <strong>e& Egypt</strong>
+            🚀 Local Knowledge Augmentation Stack | <strong>Lumora Core Systems</strong>
         </p>
-        <p style='color: #f8f9fa; font-size: 0.85rem; margin: 5px 0;'>
-            Advanced AI Solutions | Document Intelligence | RAG Technology
+        <p style='color: #a5d6a7; font-size: 0.85rem; margin: 5px 0;'>
+            Advanced AI Solutions • Document Intelligence • Local Confined Privacy Architecture
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-def show_status_card(title: str, value: str, icon: str, color: str = "#E31B6D"):
-    """Display a status card"""
+def show_status_card(title: str, value: str, icon: str, color: str = "#2e7d32"):
+    """Display a status card synced with Lumora colors"""
     st.markdown(f"""
-    <div style='background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
-                border: 3px solid {color}; padding: 20px; border-radius: 12px; margin: 15px 0;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+    <div style='background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%); 
+                border: 2px solid {color}; padding: 20px; border-radius: 12px; margin: 15px 0;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);'>
         <div style='display: flex; align-items: center; justify-content: center;'>
             <span style='font-size: 2.5rem; margin-right: 20px;'>{icon}</span>
             <div style='text-align: center;'>
-                <p style='color: #ecf0f1; font-size: 1rem; margin: 0; font-weight: 500;'>{title}</p>
+                <p style='color: #a5d6a7; font-size: 1rem; margin: 0; font-weight: 500; text-transform: uppercase;'>{title}</p>
                 <p style='color: #ffffff; font-size: 2rem; font-weight: 700; margin: 8px 0;'>{value}</p>
             </div>
         </div>
@@ -167,66 +166,66 @@ def show_info_box(message: str):
 def render_upload_process_page(project_id: int):
     """Upload & Process Documents Page"""
     
-    st.markdown("## 📤 Upload & Process Documents")
-    st.markdown("Upload your documents and process them into searchable chunks")
+    st.markdown("## 📤 Ingest & Segment System Documents")
+    st.markdown("Upload technical sheets or datasets and process them into searchable vector blocks")
     st.markdown("---")
     
     # Project ID display
-    show_status_card("Current Project ID", str(project_id), "🎯", "#0a0e27")
+    show_status_card("Active Cycle Project ID", f"#{project_id}", "🎯", "#4caf50")
     
     # Upload Section
-    st.markdown("### 📁 File Upload")
+    st.markdown("### 📁 Buffer Payload Ingestion")
     
     col1, col2 = st.columns([2, 1])
     
     with col1:
         uploaded_file = st.file_uploader(
-            "Choose a file to upload",
+            "Choose target manual fileset",
             type=["txt", "pdf"],
-            help="Upload PDF or TXT files for processing"
+            help="Upload PDF specs or TXT logs for vector parsing"
         )
     
     with col2:
         if uploaded_file is not None:
-            st.markdown("#### 📊 File Details")
+            st.markdown("#### 📊 Buffer Data Node Metrics")
             st.markdown(f"**Name:** {uploaded_file.name}")
             st.markdown(f"**Size:** {uploaded_file.size / 1024:.2f} KB")
-            st.markdown(f"**Type:** {uploaded_file.type}")
+            st.markdown(f"**Mime Type:** {uploaded_file.type}")
     
     if uploaded_file is not None:
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            if st.button("🚀 Upload File", use_container_width=True, type="primary"):
-                with st.spinner("⏳ Uploading file..."):
+            if st.button("🚀 Upload to Repository", use_container_width=True, type="primary"):
+                with st.spinner("⏳ Streaming binary bytes to node buffer..."):
                     try:
                         result = upload_file(project_id, uploaded_file, uploaded_file.name)
-                        show_success_message("File uploaded successfully!", show_balloons=True)
+                        show_success_message("Payload securely buffered!", show_balloons=True)
                         
                         # Display result in expandable section
-                        with st.expander("📋 View Upload Details", expanded=True):
+                        with st.expander("📋 View Ingestion Handle Metadata", expanded=True):
                             st.json(result)
                             
                             if "file_id" in result:
                                 st.session_state.last_file_id = result["file_id"]
-                                st.success(f"🆔 File ID: `{result['file_id']}`")
+                                st.success(f"🆔 Document Node Hash: `{result['file_id']}`")
                     except Exception as e:
-                        show_error_message(f"Upload failed: {str(e)}")
+                        show_error_message(f"Ingestion failed: {str(e)}")
     
     st.markdown("---")
     
     # Processing Section
-    st.markdown("### ⚙️ Document Processing")
-    st.markdown("Configure processing parameters and chunk your documents")
+    st.markdown("### ⚙️ Regex Structural Tokenization")
+    st.markdown("Configure sliding window parameters and slice your buffered documentation blocks")
     
-    # Enhanced processing form with dark theme and better visibility
+    # Enhanced processing form with custom dark/green theme and sharp visibility
     st.markdown("""
     <style>
         div[data-testid="stForm"] {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+            background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%) !important;
             padding: 30px !important;
             border-radius: 12px !important;
-            border: 2px solid #E31B6D !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+            border: 2px solid #2e7d32 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
         }
         div[data-testid="stForm"] label {
             color: #ffffff !important;
@@ -234,7 +233,7 @@ def render_upload_process_page(project_id: int):
             font-size: 1.05rem !important;
         }
         div[data-testid="stForm"] p {
-            color: #ecf0f1 !important;
+            color: #a5d6a7 !important;
         }
         div[data-testid="stForm"] h4 {
             color: #ffffff !important;
@@ -242,33 +241,33 @@ def render_upload_process_page(project_id: int):
             margin-bottom: 20px !important;
         }
         div[data-testid="stForm"] input {
-            background-color: #ffffff !important;
-            border: 2px solid #bdc3c7 !important;
-            color: #2c3e50 !important;
+            background-color: #1a1f2e !important;
+            border: 2px solid #2e7d32 !important;
+            color: #ffffff !important;
             font-weight: 500 !important;
         }
         div[data-testid="stForm"] .stNumberInput > div > div > input {
-            color: #2c3e50 !important;
+            color: #ffffff !important;
             font-size: 1.1rem !important;
         }
         div[data-testid="stForm"] .stTextInput > div > div > input {
-            color: #2c3e50 !important;
+            color: #ffffff !important;
             font-size: 1.1rem !important;
         }
         div[data-testid="stForm"] .stCheckbox > label > div {
             color: #ffffff !important;
         }
         div[data-testid="stForm"] small {
-            color: #bdc3c7 !important;
+            color: #a5d6a7 !important;
         }
     </style>
     """, unsafe_allow_html=True)
     
     with st.form("process_form", clear_on_submit=False):
         st.markdown("""
-        <div style='background-color: #2c3e50; padding: 15px; border-radius: 8px; margin-bottom: 20px;'>
+        <div style='background-color: #1a1f2e; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #2e7d32;'>
             <h4 style='color: #ffffff; font-weight: 600; margin: 0; text-align: center;'>
-                🔧 Processing Configuration
+                🔧 Segmentation Matrix Parameters
             </h4>
         </div>
         """, unsafe_allow_html=True)
@@ -277,35 +276,35 @@ def render_upload_process_page(project_id: int):
         
         with col1:
             chunk_size = st.number_input(
-                "Chunk Size (characters)",
+                "Token Block Size (characters)",
                 min_value=100,
                 max_value=5000,
-                value=200,
+                value=1000,
                 step=100,
-                help="Size of text chunks in characters"
+                help="Max capacity size per text slice block"
             )
             
             file_id = st.text_input(
-                "Specific File ID (optional)",
+                "Target Node ID restriction (optional)",
                 value="",
-                placeholder="Leave empty to process all files",
-                help="Enter a specific file ID or leave blank for all files"
+                placeholder="Leave empty to slice all files",
+                help="Isolate tokenization path to a single node hash, or leave blank for all"
             )
         
         with col2:
             overlap_size = st.number_input(
-                "Overlap Size (characters)",
+                "Sliding Window Overlap (characters)",
                 min_value=0,
                 max_value=500,
-                value=20,
+                value=200,
                 step=50,
-                help="Number of overlapping characters between chunks"
+                help="Semantics redundancy sequence flanked at chunk junctions"
             )
             
             do_reset = st.checkbox(
-                "🔄 Reset Existing Chunks",
+                "🔄 Flush Prior Namespace Records",
                 value=False,
-                help="Delete all existing chunks before processing"
+                help="Wipe all older text splits belonging to this project ID before compilation"
             )
         
         st.markdown("---")
@@ -313,14 +312,14 @@ def render_upload_process_page(project_id: int):
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             submitted = st.form_submit_button(
-                "⚡ Process Documents",
+                "⚡ Execute Structural Parsing",
                 use_container_width=True,
                 type="primary"
             )
         
         if submitted:
             st.markdown("---")
-            st.markdown("### 🔄 Processing Status")
+            st.markdown("### 🔄 Ingestion Pipeline Execution Graph")
             
             # Process documents
             process_req = {
@@ -336,24 +335,24 @@ def render_upload_process_page(project_id: int):
             
             try:
                 # Step 1: Process
-                status_text.text("📝 Processing documents...")
+                status_text.text("📝 Executing segmentation algorithm slices...")
                 progress_bar.progress(33)
                 
                 result = process_file(project_id=project_id, process_request=process_req)
                 
                 progress_bar.progress(66)
-                status_text.text("✅ Processing completed!")
+                status_text.text("✅ Segment blocks successfully compiled!")
                 
-                show_success_message("Documents processed successfully!", show_balloons=False)
+                show_success_message("Text splits successfully saved to data layer!", show_balloons=False)
                 
-                with st.expander("📋 View Processing Details", expanded=True):
+                with st.expander("📋 View Document Node Splitting Logs", expanded=True):
                     st.json(result)
                 
                 st.markdown("---")
                 
                 # Step 2: Index
-                st.markdown("### 🔄 Indexing to Vector Database")
-                status_text.text("🗂️ Building vector index...")
+                st.markdown("### 🔄 Multi-Tenant Vector Space Syncing")
+                status_text.text("🗂️ Calculating embeddings & committing coordinates to Qdrant cluster...")
                 
                 do_reset_index = 0
                 push_req = PushRequest(do_reset=do_reset_index)
@@ -361,11 +360,11 @@ def render_upload_process_page(project_id: int):
                 index_result = push_to_index(project_id, push_req)
                 
                 progress_bar.progress(100)
-                status_text.text("✅ All operations completed!")
+                status_text.text("✅ Ingestion protocol completed successfully!")
                 
-                show_success_message("Indexing completed successfully!", show_balloons=False)
+                show_success_message("All vector coordinates mapped to Qdrant spatial layers successfully!", show_balloons=False)
                 
-                with st.expander("📋 View Indexing Details", expanded=True):
+                with st.expander("📋 View Spatial Index Commit Registry", expanded=True):
                     st.json(index_result)
                 
                 # Clear progress indicators
@@ -376,38 +375,38 @@ def render_upload_process_page(project_id: int):
             except Exception as e:
                 progress_bar.empty()
                 status_text.empty()
-                show_error_message(f"Operation failed: {str(e)}")
+                show_error_message(f"Pipeline execution faulted: {str(e)}")
 
 def render_search_query_page(project_id: int):
     """Search & Query Documents Page"""
     
-    st.markdown("## 💬 Search & Query Documents")
-    st.markdown("Ask questions or search through your indexed documents using AI")
+    st.markdown("## 💬 Real-Time Contextual Inferences Gateway")
+    st.markdown("Query spatial index nodes or chat with the automated aquaponic expert system")
     st.markdown("---")
     
     # Project ID display
-    show_status_card("Current Project ID", str(project_id), "🎯", "#0a0e27")
+    show_status_card("Active Cluster Namespace", f"Cycle #{project_id}", "🎯", "#2e7d32")
     
     # Create tabs for different query modes
-    tab1, tab2 = st.tabs(["🤖 Ask Questions (RAG)", "🔍 Search Documents"])
+    tab1, tab2 = st.tabs(["🤖 Query System Expert (RAG)", "🔍 Spatial Vectors Lookup"])
     
     # ========================================================================
     # TAB 1: ASK QUESTIONS
     # ========================================================================
     with tab1:
-        st.markdown("### 🤖 AI-Powered Question Answering")
+        st.markdown("### 🤖 Contextual Expert Insights Generation")
         
         show_info_box(
-            "Ask questions about your documents. The AI will search through your "
-            "knowledge base and provide contextual answers using advanced RAG technology."
+            "Query your uploaded ecosystem models. The context window engine will query Qdrant coordinates "
+            "and map relevant knowledge directly into the LLM prompt payload for grounded factual outputs."
         )
         
         # Question input
         question = st.text_area(
-            "Your Question",
+            "Your Ecosystem Query",
             height=120,
-            placeholder="e.g., What are the main topics discussed in the documents?",
-            help="Type your question here. Be as specific as possible for better results."
+            placeholder="e.g., What are the optimal water temperature ranges and dissolved oxygen thresholds for Tilapia?",
+            help="Type your engineering question here. Be highly explicit for precise semantic lookup weights."
         )
         
         col1, col2 = st.columns([3, 1])
@@ -417,33 +416,33 @@ def render_search_query_page(project_id: int):
         
         with col2:
             limit = st.slider(
-                "Context Documents",
+                "Inject Window Limit (k)",
                 min_value=1,
                 max_value=20,
-                value=3,
-                help="Number of relevant documents to retrieve for context"
+                value=5,
+                help="Max similarity chunk nodes to harvest for prompt context enrichment"
             )
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             ask_button = st.button(
-                "🚀 Get Answer",
+                "🚀 Execute Pipeline Inference",
                 use_container_width=True,
                 type="primary"
             )
         
         if ask_button:
             if not question.strip():
-                st.warning("⚠️ Please enter a question!")
+                st.warning("⚠️ Enter a valid string query input!")
             else:
-                with st.spinner("🤔 Thinking... Generating answer..."):
+                with st.spinner("🤔 Harvesting nearest context blocks & computing inference logs..."):
                     try:
                         search_req = SearchRequest(text=question, limit=limit)
                         result = ask_question(project_id, search_req)
                         
                         if "answer" in result:
                             st.markdown("---")
-                            st.markdown("### 🎯 Answer")
+                            st.markdown("### 🎯 System Insight Output")
                             
                             # Display as chat messages
                             with st.chat_message("user"):
@@ -453,7 +452,7 @@ def render_search_query_page(project_id: int):
                                 st.markdown(result["answer"])
                             
                             # Success feedback
-                            show_success_message("Answer generated successfully!", show_balloons=False)
+                            show_success_message("Inference execution finished successfully!", show_balloons=False)
                             
                             # Store in session state for history
                             if 'qa_history' not in st.session_state:
@@ -467,17 +466,17 @@ def render_search_query_page(project_id: int):
                             })
                             
                             # Show details
-                            with st.expander("📄 View Full Context & Details"):
-                                st.markdown("**Full Prompt:**")
+                            with st.expander("📄 View Augmented Pipeline Full Payload"):
+                                st.markdown("**Full Injected Context Prompt Graph:**")
                                 st.text_area(
-                                    "Prompt",
+                                    "Prompt Matrix",
                                     value=result.get("full_prompt", ""),
                                     height=200,
                                     disabled=True
                                 )
                                 
                                 if result.get("chat_history"):
-                                    st.markdown("**Chat History:**")
+                                    st.markdown("**Historical Memory Tokens Array:**")
                                     st.json(result["chat_history"])
                             
                             # Download option
@@ -494,28 +493,28 @@ def render_search_query_page(project_id: int):
                                 }
                                 
                                 st.download_button(
-                                    label="💾 Download Q&A as JSON",
+                                    label="💾 Download Inference Artifact (JSON)",
                                     data=json.dumps(download_data, indent=2),
-                                    file_name=f"qa_{int(time.time())}.json",
+                                    file_name=f"lumora_inference_{int(time.time())}.json",
                                     mime="application/json",
                                     use_container_width=True
                                 )
                         else:
-                            show_error_message("Failed to get answer")
+                            show_error_message("Generation routine faulted at backend client")
                             st.json(result)
                             
                     except Exception as e:
-                        show_error_message(f"Query failed: {str(e)}")
+                        show_error_message(f"Inference pipeline aborted: {str(e)}")
     
     # ========================================================================
     # TAB 2: SEARCH DOCUMENTS
     # ========================================================================
     with tab2:
-        st.markdown("### 🔍 Semantic Document Search")
+        st.markdown("### 🔍 Spatial Density Vector Search")
         
         show_info_box(
-            "Search through your indexed documents using semantic search. "
-            "Find relevant content based on meaning, not just keywords."
+            "Query the multi-dimensional vector grid via dot product or cosine distance. "
+            "Returns localized text segments ranked strictly by semantic similarity indices."
         )
         
         # Search input
@@ -523,33 +522,33 @@ def render_search_query_page(project_id: int):
         
         with col1:
             search_query = st.text_input(
-                "Search Query",
-                placeholder="e.g., information about payment methods",
-                help="Enter your search query"
+                "Semantic Vector Query String",
+                placeholder="e.g., Modbus register mapping for pH analog probe transmitter data",
+                help="Input the diagnostic string target"
             )
         
         with col2:
             search_limit = st.slider(
-                "Results",
+                "Hits Max",
                 min_value=1,
                 max_value=20,
                 value=5,
-                help="Maximum number of search results to return"
+                help="Max nearest points coordinates to capture from Qdrant clusters"
             )
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             search_button = st.button(
-                "🔍 Search",
+                "🔍 Execute Vector Scanning",
                 use_container_width=True,
                 type="primary"
             )
         
         if search_button:
             if not search_query.strip():
-                st.warning("⚠️ Please enter a search query!")
+                st.warning("⚠️ Input target query cannot be empty string!")
             else:
-                with st.spinner("🔍 Searching documents..."):
+                with st.spinner("🔍 Executing hyper-plane distance calculation checks..."):
                     try:
                         search_req = SearchRequest(text=search_query, limit=search_limit)
                         result = search_index(project_id, search_req)
@@ -558,12 +557,12 @@ def render_search_query_page(project_id: int):
                             results = result.get("results", [])
                             
                             if not results:
-                                st.info("ℹ️ No results found for your query.")
+                                st.info("ℹ️ Zero points resolved in the active project vector coordinates.")
                             else:
                                 st.markdown("---")
-                                st.markdown(f"### 📊 Search Results ({len(results)} found)")
+                                st.markdown(f"### 📊 Resolved Coordinates Hits ({len(results)} points found)")
                                 
-                                show_success_message(f"Found {len(results)} relevant results!", show_balloons=False)
+                                show_success_message(f"Resolved {len(results)} exact high-match text points!", show_balloons=False)
                                 
                                 # Display results
                                 for i, res in enumerate(results, 1):
@@ -571,7 +570,7 @@ def render_search_query_page(project_id: int):
                                     text = res.get('chunk_text', '')
                                     metadata = res.get('chunk_metadata', {})
                                     
-                                    # Color code based on relevance
+                                    # Color code based on relevance weights
                                     if score > 0.8:
                                         border_color = "#28a745"  # Green
                                     elif score > 0.6:
@@ -580,19 +579,19 @@ def render_search_query_page(project_id: int):
                                         border_color = "#6c757d"  # Gray
                                     
                                     with st.expander(
-                                        f"📝 Result {i} - Relevance: {score:.4f}",
+                                        f"📝 Node Point {i} - Distance Weight Score: {score:.4f}",
                                         expanded=(i == 1)
                                     ):
                                         st.markdown(f"""
                                         <div style='border-left: 4px solid {border_color}; padding-left: 15px;'>
                                         """, unsafe_allow_html=True)
                                         
-                                        st.markdown("**Content:**")
+                                        st.markdown("**Segment Content Data:**")
                                         st.write(text)
                                         
                                         if metadata:
                                             st.markdown("---")
-                                            st.markdown("**Metadata:**")
+                                            st.markdown("**Node Metadata Payload Hierarchy:**")
                                             st.json(metadata)
                                         
                                         st.markdown("</div>", unsafe_allow_html=True)
@@ -610,18 +609,18 @@ def render_search_query_page(project_id: int):
                                     }
                                     
                                     st.download_button(
-                                        label="💾 Export Results as JSON",
+                                        label="💾 Export Vector Hits Topology (JSON)",
                                         data=json.dumps(export_data, indent=2),
-                                        file_name=f"search_results_{int(time.time())}.json",
+                                        file_name=f"vector_hits_{int(time.time())}.json",
                                         mime="application/json",
                                         use_container_width=True
                                     )
                         else:
-                            show_error_message("Search failed")
+                            show_error_message("Vector index retrieval routine aborted by cluster")
                             st.json(result)
                             
                     except Exception as e:
-                        show_error_message(f"Search failed: {str(e)}")
+                        show_error_message(f"Search operation terminated: {str(e)}")
 
 # ============================================================================
 # MAIN APPLICATION
@@ -630,20 +629,20 @@ def render_search_query_page(project_id: int):
 def main():
     # Page configuration
     st.set_page_config(
-        page_title="Mini RAG System - e& Egypt",
+        page_title="Lumora Advanced RAG Matrix",
         page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
-    # Custom CSS for professional styling
+    # Custom CSS for professional dark/green agriculture theme
     st.markdown("""
     <style>
         /* Main theme colors */
         :root {
-            --primary-color: #E31B6D;
-            --secondary-color: #0a0e27;
-            --accent-color: #00D9C0;
+            --primary-color: #2e7d32;
+            --secondary-color: #0f1419;
+            --accent-color: #4caf50;
         }
         
         /* Enhanced button styling */
@@ -656,22 +655,23 @@ def main():
         
         .stButton>button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(227, 27, 109, 0.3);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
         }
         
         /* Form styling */
         .stForm {
-            background: #f8f9fa;
+            background: #1a1f2e;
             padding: 20px;
             border-radius: 10px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #2e7d32;
         }
         
         /* Expander styling */
         .streamlit-expanderHeader {
-            background-color: #f8f9fa;
+            background-color: #1a1f2e;
             border-radius: 8px;
             font-weight: 600;
+            color: white;
         }
         
         /* Tab styling */
@@ -700,7 +700,7 @@ def main():
         /* File uploader styling */
         .uploadedFile {
             border-radius: 8px;
-            background: #f8f9fa;
+            background: #1a1f2e;
             padding: 10px;
         }
         
@@ -720,10 +720,10 @@ def main():
     
     # Sidebar navigation
     with st.sidebar:
-        st.markdown("### 🧭 Navigation")
+        st.markdown("### 🧭 Matrix Routes Map")
         
         page = st.radio(
-            "Select Page",
+            "Select Active Viewport Layer",
             ["📤 Upload & Process", "💬 Search & Query"],
             label_visibility="collapsed"
         )
@@ -731,60 +731,59 @@ def main():
         st.markdown("---")
         
         # Project ID input
-        st.markdown("### ⚙️ Configuration")
+        st.markdown("### ⚙️ Cluster Configurations")
         project_id = st.number_input(
-            "Project ID",
+            "Tenant Project Cycle ID",
             min_value=1,
             value=1,
-            help="Enter your project ID"
+            help="Select the isolated namespace ID in Qdrant cluster"
         )
         
         st.markdown("---")
         
         # API Status
-        st.markdown("### 🔗 API Status")
-        if st.button("Test Connection", use_container_width=True):
-            with st.spinner("Testing..."):
+        st.markdown("### 🔗 Cluster Latency Health")
+        if st.button("PING Backend Target Node", use_container_width=True):
+            with st.spinner("Executing socket handshake..."):
                 try:
                     response = requests.get(f"{API_BASE_URL}/api/v1/", timeout=5)
                     if response.status_code == 200:
-                        st.success("✅ Connected!")
+                        st.success("✅ Handshake 200 OK!")
                         st.json(response.json())
                     else:
-                        st.error(f"❌ Error: {response.status_code}")
+                        st.error(f"❌ Handshake faulted. Code: {response.status_code}")
                 except Exception as e:
-                    st.error(f"❌ Connection Failed: {str(e)}")
+                    st.error(f"❌ Connection timeout: {str(e)}")
         
         st.markdown("---")
         
         # Quick Stats
-        st.markdown("### 📊 Session Info")
-        st.markdown(f"**Current Project:** `{project_id}`")
-        st.markdown(f"**API:** `{API_BASE_URL}`")
+        st.markdown("### 📊 Active Cluster Context")
+        st.markdown(f"**Tenant Namespace Target:** `Cycle #{project_id}`")
+        st.markdown(f"**Resolved Backend Core Address:** `{API_BASE_URL}`")
         
         if 'qa_history' in st.session_state:
-            st.markdown(f"**Q&A History:** {len(st.session_state.qa_history)} queries")
+            st.markdown(f"**Cached Inferences Pool:** {len(st.session_state.qa_history)} tracks")
         
         if 'last_file_id' in st.session_state:
-            st.markdown(f"**Last File ID:** `{st.session_state.last_file_id}`")
+            st.markdown(f"**Active Ingest Node Hash:** `{st.session_state.last_file_id}`")
         
         st.markdown("---")
         
         # Help section
-        with st.expander("❓ Help & Tips"):
+        with st.expander("❓ Operations Guideline Docs"):
             st.markdown("""
-            **Quick Guide:**
+            **Deployment Lifecycle Instructions:**
             
-            1️⃣ Upload files (PDF/TXT)
-            2️⃣ Process & chunk them
-            3️⃣ Auto-indexing to vector DB
-            4️⃣ Search or ask questions
+            1️⃣ Buffer data node payload logs (PDF/TXT)
+            2️⃣ Execute token splits regex compiler
+            3️⃣ Automatic coordinates synthesis into Qdrant index space
+            4️⃣ Query contextual expert engine safely
             
-            **Tips:**
-            - Use specific questions
-            - Adjust context docs
-            - Try different chunk sizes
-            - Export results as JSON
+            **Best Engineering Practices:**
+            - Input clear parameters names when querying calibrations.
+            - Keep sliding chunk weights at 1000 characters boundaries.
+            - Purge cluster metadata registry layers prior to new deployment cycles.
             """)
     
     # Main content area

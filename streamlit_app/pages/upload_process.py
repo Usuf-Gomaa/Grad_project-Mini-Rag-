@@ -1,6 +1,6 @@
 """
 Upload & Process Page
-Handles file upload and document processing
+Handles agricultural research log upload and vector data processing for Lumora
 """
 
 import streamlit as st
@@ -12,9 +12,9 @@ def render():
     """Render the upload & process page"""
     
     st.markdown(f"""
-    <h1 style='color: {app_config.PRIMARY_COLOR};'>📤 Upload & Process Documents</h1>
-    <p style='font-size: 1.1rem; color: #6c757d;'>
-        Upload your documents and process them for intelligent search and retrieval
+    <h1 style='color: {app_config.PRIMARY_COLOR};'>📤 Ingest & Segment System Documents</h1>
+    <p style='font-size: 1.1rem; color: #a5d6a7;'>
+        Upload technical manuals, sensor specifications, and datasets to feed the Lumora Knowledge Base
     </p>
     """, unsafe_allow_html=True)
     
@@ -23,31 +23,31 @@ def render():
     project_id = st.session_state.project_id
     
     # Create tabs for different sections
-    tab1, tab2 = st.tabs(["📁 Upload Files", "⚙️ Process Documents"])
+    tab1, tab2 = st.tabs(["📁 Ingest Files", "⚙️ Neural Segmentation"])
     
     # ========================================================================
     # TAB 1: UPLOAD FILES
     # ========================================================================
     with tab1:
-        st.markdown("### Upload Your Documents")
+        st.markdown("### Upload Research & Hardware Sheets")
         
         ui_components.show_info(
-            "Upload PDF or text files to add them to your knowledge base. "
-            f"Maximum file size: {app_config.MAX_FILE_SIZE_MB} MB"
+            "Inject PDF blueprints or raw text manuals into the local repository buffer. "
+            f"Maximum data stream payload size: {app_config.MAX_FILE_SIZE_MB} MB"
         )
         
         # File uploader
         uploaded_file = st.file_uploader(
-            "Choose a file",
+            "Choose a document target",
             type=app_config.ALLOWED_FILE_TYPES,
-            help=f"Supported formats: {', '.join(app_config.ALLOWED_FILE_TYPES)}"
+            help=f"Supported engineering formats: {', '.join(app_config.ALLOWED_FILE_TYPES).upper()}"
         )
         
         if uploaded_file is not None:
             # Display file information
             file_size_kb = uploaded_file.size / 1024
             
-            st.markdown("#### 📋 File Information")
+            st.markdown("#### 📋 Buffer Node Metadata")
             ui_components.render_file_info(
                 filename=uploaded_file.name,
                 filesize=file_size_kb,
@@ -57,14 +57,14 @@ def render():
             # Check file size
             if file_size_kb > app_config.MAX_FILE_SIZE_MB * 1024:
                 ui_components.show_error(
-                    f"File is too large! Maximum size is {app_config.MAX_FILE_SIZE_MB} MB"
+                    f"Buffer Overflow! Maximum allowed payload size is {app_config.MAX_FILE_SIZE_MB} MB"
                 )
             else:
                 # Upload button
                 col1, col2, col3 = st.columns([1, 2, 1])
                 with col2:
-                    if st.button("🚀 Upload File", use_container_width=True):
-                        with ui_components.show_loading("Uploading file..."):
+                    if st.button("🚀 Upload to Repository", use_container_width=True):
+                        with ui_components.show_loading("Pushing binary stream to repository..."):
                             result = api_client.upload_file(
                                 project_id=project_id,
                                 file=uploaded_file,
@@ -72,11 +72,11 @@ def render():
                             )
                         
                         if "error" in result:
-                            ui_components.show_error(f"Upload failed: {result['error']}")
+                            ui_components.show_error(f"Ingestion failed: {result['error']}")
                         else:
                             file_id = result.get('file_id', 'N/A')
                             ui_components.show_success(
-                                f"File uploaded successfully! File ID: {file_id}"
+                                f"Payload securely buffered! Document Node ID: {file_id}"
                             )
                             st.balloons()
                             
@@ -92,7 +92,7 @@ def render():
         # Show uploaded files for this project
         if st.session_state.get('uploaded_files'):
             st.markdown("---")
-            st.markdown("### 📚 Uploaded Files in This Session")
+            st.markdown("### 📚 Buffered Corpus Nodes (Active Session)")
             
             project_files = [
                 f for f in st.session_state.uploaded_files 
@@ -107,43 +107,43 @@ def render():
                     with col2:
                         st.code(file_info['file_id'], language=None)
             else:
-                ui_components.show_info("No files uploaded for this project yet.")
+                ui_components.show_info("No files buffered for this specific system cycle yet.")
     
     # ========================================================================
     # TAB 2: PROCESS DOCUMENTS
     # ========================================================================
     with tab2:
-        st.markdown("### Process Your Documents")
+        st.markdown("### Structural Document Tokenization")
         
         ui_components.show_info(
-            "Configure processing parameters and process your uploaded documents. "
-            "This will chunk your documents and prepare them for indexing."
+            "Configure structural text splitting configurations. "
+            "This splits raw documents into discrete contextual chunks before embedding generation."
         )
         
         # Processing form
         with st.form("process_form", clear_on_submit=False):
-            st.markdown("#### ⚙️ Processing Configuration")
+            st.markdown("#### ⚙️ Segmentation Matrix")
             
             col1, col2 = st.columns(2)
             
             with col1:
                 chunk_size = st.number_input(
-                    "Chunk Size (characters)",
+                    "Token Block Capacity (chars)",
                     min_value=app_config.CHUNK_SIZE_MIN,
                     max_value=app_config.CHUNK_SIZE_MAX,
                     value=app_config.CHUNK_SIZE_DEFAULT,
                     step=100,
-                    help="Size of text chunks in characters. Larger chunks preserve more context."
+                    help="Character sequence depth per individual text block target."
                 )
             
             with col2:
                 overlap_size = st.number_input(
-                    "Overlap Size (characters)",
+                    "Sliding Window Overlap (chars)",
                     min_value=app_config.OVERLAP_SIZE_MIN,
                     max_value=app_config.OVERLAP_SIZE_MAX,
                     value=app_config.OVERLAP_SIZE_DEFAULT,
                     step=50,
-                    help="Number of overlapping characters between chunks. Helps maintain context."
+                    help="Inter-chunk redundancy sequence to maintain semantic context at chunk junctions."
                 )
             
             st.markdown("---")
@@ -152,16 +152,16 @@ def render():
             
             with col1:
                 do_reset = st.checkbox(
-                    "🔄 Reset Existing Chunks",
+                    "🔄 Flush Existing Chunks",
                     value=False,
-                    help="Delete all existing chunks before processing"
+                    help="Wipe all prior parsed blocks under this project ID before reprocessing"
                 )
             
             with col2:
                 file_id = st.text_input(
-                    "Specific File ID (optional)",
+                    "Target File Node ID (Optional)",
                     value="",
-                    help="Leave empty to process all files, or enter a specific file ID"
+                    help="Isolate pipeline execution to a single specific node hash. Leave blank for all."
                 )
             
             st.markdown("---")
@@ -170,16 +170,16 @@ def render():
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
                 submitted = st.form_submit_button(
-                    "⚡ Process Documents",
+                    "⚡ Execute Structural Parsing",
                     use_container_width=True
                 )
             
         # Handle form submission OUTSIDE the form context
         if submitted:
             # Process documents
-            st.markdown("### 🔄 Processing Status")
+            st.markdown("### 🔄 Ingestion Pipeline Graph Status")
             
-            with ui_components.show_loading("Processing documents... This may take a while."):
+            with ui_components.show_loading("Executing regex token split patterns... This may take a few seconds."):
                 result = api_client.process_documents(
                     project_id=project_id,
                     chunk_size=chunk_size,
@@ -195,8 +195,8 @@ def render():
                 processed_files = result.get('processed_files', 0)
                 
                 ui_components.show_success(
-                    f"Processing completed! {processed_files} files processed, "
-                    f"{inserted_chunks} chunks created."
+                    f"Segmentation complete! {processed_files} structural nodes parsed, "
+                    f"{inserted_chunks} vector payload points prepared."
                 )
                 
                 st.session_state.processing_status = {
@@ -211,22 +211,22 @@ def render():
     # Show index button OUTSIDE tab2 context if processing completed
     if st.session_state.get('ready_to_index', False):
         st.markdown("---")
-        st.markdown("### 🔄 Next Step: Index Documents")
-        st.info("💡 Documents are processed. Click below to build the vector index.")
+        st.markdown("### 🔄 Secondary Pipeline Vector Synching")
+        st.info("💡 Document text points ready. Click below to commit coordinates to Qdrant Vector DB.")
         
-        if st.button("🚀 Index Documents Now", use_container_width=True, key="index_button"):
-            with ui_components.show_loading("Indexing documents to vector database..."):
+        if st.button("🚀 Push to Qdrant Vector Space", use_container_width=True, key="index_button"):
+            with ui_components.show_loading("Extracting embeddings & calculating high-density coordinates..."):
                 index_result = api_client.push_to_index(
                     project_id=project_id,
                     do_reset=0  # Don't reset when auto-indexing
                 )
             
             if "error" in index_result:
-                ui_components.show_error(f"Indexing failed: {index_result['error']}")
+                ui_components.show_error(f"Vector committing failed: {index_result['error']}")
             else:
                 indexed_count = index_result.get('inserted_items_count', 0)
                 ui_components.show_success(
-                    f"✅ Indexing completed! {indexed_count} items indexed."
+                    f"✅ Ingestion finalized! {indexed_count} vector points mapped to Qdrant clusters successfully."
                 )
                 st.balloons()
                 # Clear the flag after successful indexing
@@ -236,20 +236,20 @@ def render():
     # Show processing stats if available (moved outside tab context)
     if st.session_state.get('processing_status'):
         st.markdown("---")
-        st.markdown("### 📊 Latest Processing Results")
+        st.markdown("### 📊 Pipeline Metric Feedback")
         
         col1, col2 = st.columns(2)
         
         with col1:
             ui_components.render_metric_card(
-                title="Files Processed",
+                title="Committed Corpora Docs",
                 value=str(st.session_state.processing_status['files']),
                 icon="📄"
             )
         
         with col2:
             ui_components.render_metric_card(
-                title="Chunks Created",
+                title="Active Vector Space Chunks",
                 value=str(st.session_state.processing_status['chunks']),
                 icon="📦"
             )
@@ -257,26 +257,20 @@ def render():
     st.markdown("---")
     
     # Help section
-    with st.expander("❓ Need Help?"):
+    with st.expander("❓ Neural Pipeline Mechanics"):
         st.markdown("""
-        ### Understanding Document Processing
+        ### Understanding Token Ingestion Boundaries
         
-        **Chunk Size:**
-        - Determines how much text is in each chunk
-        - Recommended: 1000-2000 characters for most documents
-        - Smaller chunks = more precise search, but less context
-        - Larger chunks = more context, but less precise search
+        **Segment Density (Chunk Size):**
+        - Controls character limits inside single index records.
+        - Recommended parameters: 1000-1500 characters for sensor manuals.
+        - Small sizes optimize retrieval speeds but increase prompt fragmentation risk.
         
-        **Overlap Size:**
-        - Number of characters that overlap between chunks
-        - Helps maintain context across chunk boundaries
-        - Recommended: 10-20% of chunk size
+        **Context Overlap:**
+        - Sequence duplication margin flanking adjacent chunk margins.
+        - Preserves sentence context across hard block slices.
+        - Recommended setting: ~15-20% of maximum block size.
         
-        **Reset Existing Chunks:**
-        - Check this if you want to reprocess all documents from scratch
-        - Unchecked = append new chunks to existing ones
-        
-        **Specific File ID:**
-        - Leave empty to process all uploaded files
-        - Enter a file ID to process only that specific file
+        **Wipe Index State:**
+        - Erases prior records inside the chosen Project ID workspace to build clean embeddings namespaces.
         """)

@@ -1,7 +1,7 @@
 """
-Mini RAG System - ChatGPT Style Interface
-Advanced Chat UI with e& Egypt branding
-Powered by Hossam Medhat for e& Egypt
+Lumora Smart Aquaponic System - ChatGPT Style Interface
+Advanced Chat UI with Lumora Agriculture Branding
+Powered by Automation and AI Integration
 """
 
 import streamlit as st
@@ -102,7 +102,7 @@ def create_new_chat():
     chat_id = f"chat_{int(time.time())}"
     chat_session = {
         'id': chat_id,
-        'name': f"Chat {len(st.session_state.chat_sessions) + 1}",
+        'name': f"Ecosystem Run {len(st.session_state.chat_sessions) + 1}",
         'created_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'messages': []
     }
@@ -143,32 +143,32 @@ def add_message(role: str, content: str, metadata: dict = None):
 # ============================================================================
 
 def render_chat_message(message: dict):
-    """Render a single chat message"""
+    """Render a single chat message synced with Lumora palette"""
     role = message['role']
     content = message['content']
     timestamp = message.get('timestamp', '')
     
     if role == 'user':
-        # User message - right aligned, e& magenta gradient
+        # User message - right aligned, Lumora Green Gradient
         st.markdown(f"""
         <div style='display: flex; justify-content: flex-end; margin: 15px 0;'>
-            <div style='max-width: 70%; background: linear-gradient(135deg, #E31B6D 0%, #0a0e27 100%); 
+            <div style='max-width: 70%; background: linear-gradient(135deg, #2e7d32 0%, #1a1f2e 100%); 
                         color: white; padding: 15px 20px; border-radius: 18px 18px 4px 18px;
-                        box-shadow: 0 4px 8px rgba(227, 27, 109, 0.3);'>
+                        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25); border-right: 3px solid #4caf50;'>
                 <p style='margin: 0; font-size: 1rem; line-height: 1.5; font-weight: 500;'>{content}</p>
-                <p style='margin: 8px 0 0 0; font-size: 0.75rem; opacity: 0.9; text-align: right;'>{timestamp}</p>
+                <p style='margin: 8px 0 0 0; font-size: 0.75rem; opacity: 0.9; text-align: right;'>{timestamp} | Operator</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
     else:
-        # Assistant message - left aligned, dark gradient
+        # Assistant message - left aligned, Matrix Dark Slate Gradient
         st.markdown(f"""
         <div style='display: flex; justify-content: flex-start; margin: 15px 0;'>
-            <div style='max-width: 70%; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
-                        color: #ecf0f1; padding: 15px 20px; border-radius: 18px 18px 18px 4px;
-                        box-shadow: 0 4px 8px rgba(44, 62, 80, 0.3); border: 2px solid #E31B6D;'>
+            <div style='max-width: 70%; background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%); 
+                        color: #e8eef5; padding: 15px 20px; border-radius: 18px 18px 18px 4px;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #2e7d32;'>
                 <p style='margin: 0; font-size: 1rem; line-height: 1.5; font-weight: 400; color: #ffffff;'>{content}</p>
-                <p style='margin: 8px 0 0 0; font-size: 0.75rem; color: #bdc3c7; text-align: left;'>{timestamp}</p>
+                <p style='margin: 8px 0 0 0; font-size: 0.75rem; color: #a5d6a7; text-align: left;'>{timestamp} | Lumora Expert</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -176,24 +176,20 @@ def render_chat_message(message: dict):
 def render_sidebar():
     """Render the chat history sidebar"""
     with st.sidebar:
-        # Logo and title with e& branding
-        logo_path = "assets/e_and_egypt_logo.png"
-        if os.path.exists(logo_path):
-            col1, col2, col3 = st.columns([1, 2, 1])
-            with col2:
-                st.image(logo_path, width=150)
-        else:
+        try:
+            st.image("assets/lumora_logo.png", width=150)
+        except:
             st.markdown("""
             <div style='text-align: center; padding: 10px 0;'>
-                <h2 style='color: #E31B6D; margin: 0;'>🎯 e&</h2>
+                <h2 style='color: #4caf50; margin: 0; font-weight: 900; letter-spacing: 2px;'>LUMORA</h2>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div style='text-align: center; padding: 10px 0; margin-bottom: 15px;'>
-            <h3 style='color: #E31B6D; margin: 0;'>Mini RAG Chat</h3>
-            <p style='color: #6c757d; font-size: 0.85rem; margin: 5px 0; font-weight: 500;'>
-                Powered by Hossam Medhat<br>for e& Egypt
+        <div style='text-align: center; padding: 5px 0; margin-bottom: 15px;'>
+            <h3 style='color: #2e7d32; margin: 0; font-size: 1.2rem;'>Aquaponic RAG Chat</h3>
+            <p style='color: #a5d6a7; font-size: 0.85rem; margin: 5px 0; font-weight: 500;'>
+                Next-Gen Sustainable Automation<br>Ecosystem Interface
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -201,46 +197,46 @@ def render_sidebar():
         st.markdown("---")
         
         # New Chat Button
-        if st.button("➕ New Chat", use_container_width=True, type="primary"):
+        if st.button("➕ New Ingestion Run", use_container_width=True, type="primary"):
             create_new_chat()
             st.rerun()
         
         st.markdown("---")
         
         # Settings toggle
-        if st.button("⚙️ Settings", use_container_width=True):
+        if st.button("⚙️ Core Hyperparameters", use_container_width=True):
             st.session_state.show_settings = not st.session_state.show_settings
         
         if st.session_state.show_settings:
             st.markdown("""
-            <div style='background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
-                        padding: 15px; border-radius: 8px; margin: 10px 0; border: 2px solid #E31B6D;'>
-                <h4 style='color: #ffffff; margin: 0; text-align: center;'>⚙️ Configuration</h4>
+            <div style='background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%); 
+                        padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #2e7d32;'>
+                <h4 style='color: #4caf50; margin: 0; text-align: center; font-size: 0.9rem;'>Pipeline Configuration</h4>
             </div>
             """, unsafe_allow_html=True)
             
             st.session_state.project_id = st.number_input(
-                "Project ID",
+                "Cycle Project ID",
                 min_value=1,
                 value=st.session_state.project_id,
-                help="Enter your project ID"
+                help="Isolate vector memory via choosing project code"
             )
             
             st.session_state.context_limit = st.slider(
-                "Context Documents",
+                "Retrieved Windows (k)",
                 min_value=1,
                 max_value=10,
                 value=st.session_state.context_limit,
-                help="Number of documents to retrieve"
+                help="Max similarity text points to retrieve from Qdrant"
             )
         
         st.markdown("---")
         
         # Chat History
-        st.markdown("### 💬 Chat History")
+        st.markdown("### 💬 Ingestion Run History")
         
         if not st.session_state.chat_sessions:
-            st.info("No chats yet. Start a new chat!")
+            st.info("No recorded sessions yet.")
         else:
             for session in reversed(st.session_state.chat_sessions):
                 is_active = session['id'] == st.session_state.current_chat_id
@@ -258,7 +254,7 @@ def render_sidebar():
                         st.rerun()
                 
                 with col2:
-                    if st.button("🗑️", key=f"del_{session['id']}", help="Delete chat"):
+                    if st.button("🗑️", key=f"del_{session['id']}", help="Wipe run log"):
                         st.session_state.chat_sessions = [
                             s for s in st.session_state.chat_sessions if s['id'] != session['id']
                         ]
@@ -270,47 +266,47 @@ def render_sidebar():
                                 st.session_state.current_messages = []
                         st.rerun()
                 
-                st.markdown(f"<p style='font-size: 0.7rem; color: #7f8c8d; margin: 0;'>{session['created_at']}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='font-size: 0.7rem; color: #a5d6a7; margin: 0; padding-left: 5px;'>{session['created_at']}</p>", unsafe_allow_html=True)
                 st.markdown("---")
         
         # File Upload Section
-        with st.expander("📤 Upload & Process Files", expanded=False):
+        with st.expander("📤 Repository Ingestion Buffer", expanded=False):
             st.markdown("""
-            <div style='background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;'>
-                <p style='color: #2c3e50; margin: 0; font-weight: 600;'>📁 File Upload</p>
+            <div style='background: #11141a; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #2e7d32;'>
+                <p style='color: #ffffff; margin: 0; font-weight: 600; font-size: 0.85rem;'>📁 Ingest Manuals/Data</p>
             </div>
             """, unsafe_allow_html=True)
             
             uploaded_file = st.file_uploader(
-                "Choose a file",
+                "Choose target fileset",
                 type=["txt", "pdf"],
-                help="Upload PDF or TXT files"
+                help="Buffered file limits: PDF/TXT up to 10MB"
             )
             
             if uploaded_file is not None:
-                st.markdown(f"**File:** {uploaded_file.name} ({uploaded_file.size / 1024:.2f} KB)")
-                if st.button("⬆️ Upload File", use_container_width=True, type="primary"):
-                    with st.spinner("Uploading..."):
+                st.markdown(f"**Target Node:** {uploaded_file.name} ({uploaded_file.size / 1024:.2f} KB)")
+                if st.button("⬆️ Ingest Payload", use_container_width=True, type="primary"):
+                    with st.spinner("Streaming..."):
                         try:
                             result = upload_file(st.session_state.project_id, uploaded_file, uploaded_file.name)
-                            add_message("system", f"✅ File '{uploaded_file.name}' uploaded successfully!")
+                            add_message("system", f"✅ File '{uploaded_file.name}' buffered securely into project target area!")
                             st.balloons()
                             st.rerun()
                         except Exception as e:
-                            st.error(f"Upload failed: {str(e)}")
+                            st.error(f"Ingestion failed: {str(e)}")
             
             st.markdown("---")
             st.markdown("""
-            <div style='background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 10px;'>
-                <p style='color: #2c3e50; margin: 0; font-weight: 600;'>⚙️ Process Documents</p>
+            <div style='background: #11141a; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #2e7d32;'>
+                <p style='color: #ffffff; margin: 0; font-weight: 600; font-size: 0.85rem;'>⚙️ Regex Segmentation Layer</p>
             </div>
             """, unsafe_allow_html=True)
             
-            chunk_size = st.number_input("Chunk Size", min_value=100, value=200, step=50)
-            overlap_size = st.number_input("Overlap Size", min_value=0, value=20, step=10)
+            chunk_size = st.number_input("Token Block Size", min_value=100, value=1000, step=100)
+            overlap_size = st.number_input("Sliding Window Overlap", min_value=0, value=200, step=50)
             
-            if st.button("⚙️ Process & Index", use_container_width=True, type="primary"):
-                with st.spinner("⏳ Processing and indexing..."):
+            if st.button("⚙️ Tokenize & Push to Space", use_container_width=True, type="primary"):
+                with st.spinner("⏳ Compiling tokens and resolving dimensions..."):
                     try:
                         # Process
                         process_req = ProcessRequest(
@@ -325,23 +321,23 @@ def render_sidebar():
                         push_req = PushRequest(do_reset=0)
                         index_result = push_to_index(st.session_state.project_id, push_req)
                         
-                        add_message("system", f"✅ Documents processed and indexed successfully!")
+                        add_message("system", f"✅ Knowledge corpus tokenized and synced with Qdrant vector coordinates successfully!")
                         st.success("✅ Done!")
                         st.rerun()
                     except Exception as e:
-                        st.error(f"❌ Processing failed: {str(e)}")
+                        st.error(f"❌ Structural parsing failed: {str(e)}")
 
 def render_chat_interface():
     """Render the main chat interface"""
     
-    # Custom CSS for chat interface - matching app_enhanced.py theme
+    # Custom CSS for chat interface - matching Lumora green/dark theme
     st.markdown("""
     <style>
-        /* Main theme colors - from app_enhanced.py */
+        /* Main theme colors */
         :root {
-            --primary-color: #E31B6D;
-            --secondary-color: #0a0e27;
-            --accent-color: #00D9C0;
+            --primary-color: #2e7d32;
+            --secondary-color: #0f1419;
+            --accent-color: #4caf50;
         }
         
         /* Enhanced button styling */
@@ -354,36 +350,36 @@ def render_chat_interface():
         
         .stButton>button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(227, 27, 109, 0.3);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
         }
         
         /* Input box styling */
         .stTextInput > div > div > input {
             border-radius: 20px;
-            border: 2px solid #E31B6D;
+            border: 2px solid #2e7d32;
             padding: 12px 20px;
             font-size: 1rem;
-            background-color: #ffffff;
-            color: #2c3e50;
+            background-color: #1a1f2e;
+            color: #ffffff;
         }
         
         .stTextInput > div > div > input:focus {
-            border-color: #0a0e27;
-            box-shadow: 0 0 0 2px rgba(227, 27, 109, 0.2);
+            border-color: #4caf50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
         }
         
         /* Number input styling */
         .stNumberInput > div > div > input {
-            background-color: #ffffff;
-            border: 2px solid #bdc3c7;
-            color: #2c3e50;
+            background-color: #1a1f2e;
+            border: 2px solid #2e7d32;
+            color: #ffffff;
             font-weight: 500;
             border-radius: 8px;
         }
         
         /* Slider styling */
         .stSlider > div > div > div {
-            background-color: #E31B6D;
+            background-color: #2e7d32;
         }
         
         /* Success/Error message styling */
@@ -396,15 +392,16 @@ def render_chat_interface():
         /* File uploader styling */
         .uploadedFile {
             border-radius: 8px;
-            background: #f8f9fa;
+            background: #1a1f2e;
             padding: 10px;
         }
         
         /* Expander styling */
         .streamlit-expanderHeader {
-            background-color: #f8f9fa;
+            background-color: #1a1f2e;
             border-radius: 8px;
             font-weight: 600;
+            color: white;
         }
         
         /* Scrollable chat area */
@@ -412,34 +409,30 @@ def render_chat_interface():
             max-height: 500px;
             overflow-y: auto;
             padding: 25px;
-            background: #ffffff;
+            background: #0f1419;
             border-radius: 15px;
             margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: 2px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border: 2px solid #2e7d32;
         }
     </style>
     """, unsafe_allow_html=True)
     
-    # Header with e& branding
+    # Header with Lumora branding
     col1, col2, col3 = st.columns([1, 3, 1])
     
     with col1:
-        logo_path = "assets/e_and_egypt_logo.png"
-        if os.path.exists(logo_path):
-            st.image(logo_path, width=180)
-        else:
-            st.markdown("## 🎯 e&")
+        st.markdown("<h2 style='color: #4caf50; margin-top: 15px;'>🌿 LUMORA</h2>", unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-        <div style='text-align: center; padding: 20px;'>
-            <h1 style='color: #E31B6D; margin: 0;'>💬 Mini RAG Chat</h1>
-            <p style='color: #2c3e50; font-size: 1rem; margin: 8px 0; font-weight: 600;'>
-                Powered by Hossam Medhat for e& Egypt
+        <div style='text-align: center; padding: 10px;'>
+            <h1 style='color: #ffffff; margin: 0; font-size: 2.2rem; font-weight: 800;'>💬 Lumora Intelligence Node</h1>
+            <p style='color: #a5d6a7; font-size: 1rem; margin: 8px 0; font-weight: 500;'>
+                Real-Time Contextual Inferences Subsystem
             </p>
-            <p style='color: #6c757d; font-size: 0.95rem; margin: 5px 0;'>
-                Ask questions and get AI-powered answers from your knowledge base
+            <p style='color: #6c757d; font-size: 0.9rem; margin: 5px 0;'>
+                Query operational guides, sensory registers boundaries, and ecosystem parameters datasets
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -448,8 +441,8 @@ def render_chat_interface():
         st.markdown("""
         <div style='text-align: right; padding: 10px;'>
             <p style='color: #6c757d; font-size: 0.85rem; margin: 0;'>
-                ChatGPT Style<br>
-                Version 3.0
+                Aquaponic RAG Core<br>
+                Build iteration 3.0
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -459,11 +452,11 @@ def render_chat_interface():
     # Check if there's an active chat
     if not st.session_state.current_chat_id:
         st.markdown("""
-        <div style='text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-                    border-radius: 12px; border: 2px solid #E31B6D; margin: 20px 0;'>
-            <h2 style='color: #ffffff; margin: 0;'>👋 Welcome!</h2>
-            <p style='color: #ecf0f1; font-size: 1.1rem; margin: 15px 0;'>
-                Click <strong>'➕ New Chat'</strong> in the sidebar to start a conversation
+        <div style='text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%);
+                    border-radius: 12px; border: 2px solid #2e7d32; margin: 20px 0;'>
+            <h2 style='color: #ffffff; margin: 0;'>👋 Gateway Active</h2>
+            <p style='color: #a5d6a7; font-size: 1.1rem; margin: 15px 0;'>
+                Click <strong>'➕ New Ingestion Run'</strong> inside the cluster control panel to initiate query pipelines
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -474,11 +467,11 @@ def render_chat_interface():
     
     if not st.session_state.current_messages:
         st.markdown("""
-        <div style='text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-                    border-radius: 10px; border: 2px dashed #bdc3c7;'>
-            <h3 style='color: #2c3e50; margin: 0;'>💭 Start a conversation</h3>
-            <p style='color: #6c757d; font-size: 1rem; margin: 10px 0;'>
-                Type your question below and press Enter or click Send
+        <div style='text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #11141a 0%, #1a1f2e 100%);
+                    border-radius: 10px; border: 2px dashed #2e7d32;'>
+            <h3 style='color: #ffffff; margin: 0;'>💭 Awaiting Operator Inputs</h3>
+            <p style='color: #a5d6a7; font-size: 1rem; margin: 10px 0;'>
+                Input telemetry or diagnostic queries to extract synchronized insights from vector memory blocks
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -497,13 +490,13 @@ def render_chat_interface():
     with col1:
         user_input = st.text_input(
             "Message",
-            placeholder="Ask a question about your documents...",
+            placeholder="Query water calibrations, modbus mappings, biological thresholds...",
             label_visibility="collapsed",
             key="user_input"
         )
     
     with col2:
-        send_button = st.button("📤 Send", use_container_width=True, type="primary")
+        send_button = st.button("📤 Query", use_container_width=True, type="primary")
     
     # Handle message sending
     if send_button and user_input:
@@ -511,7 +504,7 @@ def render_chat_interface():
         add_message("user", user_input)
         
         # Get AI response
-        with st.spinner("🤔 Thinking..."):
+        with st.spinner("🤔 Scanning Qdrant clusters & formulating response..."):
             try:
                 search_req = SearchRequest(
                     text=user_input,
@@ -523,9 +516,9 @@ def render_chat_interface():
                     answer = result["answer"]
                     add_message("assistant", answer, {'full_result': result})
                 else:
-                    add_message("assistant", "❌ Sorry, I couldn't generate an answer.")
+                    add_message("assistant", "❌ Failed to generate inference payload. Verify Qdrant index bounds.")
             except Exception as e:
-                add_message("assistant", f"❌ Error: {str(e)}")
+                add_message("assistant", f"❌ Execution error: {str(e)}")
         
         st.rerun()
     
@@ -534,20 +527,20 @@ def render_chat_interface():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("🔍 Search Documents", use_container_width=True):
+        if st.button("🔍 Search Memory Blocks", use_container_width=True):
             st.session_state.show_search = True
     
     with col2:
-        if st.button("📊 Index Info", use_container_width=True):
+        if st.button("📊 Space Density Metrics", use_container_width=True):
             try:
                 info = get_index_info(st.session_state.project_id)
-                add_message("system", f"📊 Index Information:\n```json\n{json.dumps(info, indent=2)}\n```")
+                add_message("system", f"📊 Qdrant Space Metadata Info:\n```json\n{json.dumps(info, indent=2)}\n```")
                 st.rerun()
             except Exception as e:
-                st.error(f"Failed to get info: {str(e)}")
+                st.error(f"Failed to query index stats: {str(e)}")
     
     with col3:
-        if st.button("🗑️ Clear Chat", use_container_width=True):
+        if st.button("🗑️ Purge Live Run Cache", use_container_width=True):
             st.session_state.current_messages = []
             save_current_chat()
             st.rerun()
@@ -559,7 +552,7 @@ def render_chat_interface():
 def main():
     # Page configuration
     st.set_page_config(
-        page_title="Mini RAG Chat - e& Egypt",
+        page_title="Lumora RAG Core Client",
         page_icon="💬",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -574,16 +567,16 @@ def main():
     # Render main chat interface
     render_chat_interface()
     
-    # Footer - matching app_enhanced.py
+    # Footer
     st.markdown("---")
     st.markdown("""
-    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #E31B6D 0%, #0a0e27 100%); 
-                border-radius: 10px; margin-top: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+    <div style='text-align: center; padding: 20px; background: linear-gradient(90deg, #11141a 0%, #2e7d32 100%); 
+                border-radius: 10px; margin-top: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); border: 1px solid #4caf50;'>
         <p style='color: white; font-size: 1rem; margin: 5px 0; font-weight: 600;'>
-            🚀 Powered by <strong>Hossam Medhat</strong> for <strong>e& Egypt</strong>
+            🚀 Local Knowledge Augmentation Stack | **Lumora Core Systems**
         </p>
-        <p style='color: #f8f9fa; font-size: 0.85rem; margin: 5px 0;'>
-            Advanced AI Solutions | Document Intelligence | RAG Technology
+        <p style='color: #a5d6a7; font-size: 0.85rem; margin: 5px 0;'>
+            Advanced Intelligent Inferences Engine • Qdrant Vectors Routing • Local Confined Privacy Architecture
         </p>
     </div>
     """, unsafe_allow_html=True)

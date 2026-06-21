@@ -1,6 +1,6 @@
 """
 Query Interface Page
-Handles document search and Q&A functionality
+Handles document search and Q&A functionality oriented for Lumora
 """
 
 import streamlit as st
@@ -14,8 +14,8 @@ def render():
     
     st.markdown(f"""
     <h1 style='color: {app_config.PRIMARY_COLOR};'>💬 Query Interface</h1>
-    <p style='font-size: 1.1rem; color: #6c757d;'>
-        Ask questions and search through your documents using AI-powered retrieval
+    <p style='font-size: 1.1rem; color: #a5d6a7;'>
+        Ask questions and search through your agricultural research using AI-powered retrieval
     </p>
     """, unsafe_allow_html=True)
     
@@ -24,45 +24,45 @@ def render():
     project_id = st.session_state.project_id
     
     # Create tabs for different query modes
-    tab1, tab2, tab3 = st.tabs(["🤖 Ask Questions", "🔍 Search Documents", "💬 Chat History"])
+    tab1, tab2, tab3 = st.tabs(["🤖 Ask Lumora Expert", "🔍 Semantic Vector Search", "💬 Ingestion History"])
     
     # ========================================================================
     # TAB 1: ASK QUESTIONS (RAG)
     # ========================================================================
     with tab1:
-        st.markdown("### Ask Your Questions")
+        st.markdown("### Ask Your Technical Questions")
         
         ui_components.show_info(
-            "Ask questions about your documents. The AI will search through your "
-            "knowledge base and provide contextual answers."
+            "Query your uploaded ecosystem blueprints and datasets. The AI will search through your "
+            "localized Qdrant knowledge base and provide precise contextual answers."
         )
         
         # Question input
         question = st.text_area(
-            "Your Question",
+            "Your Ecosystem Question",
             height=100,
-            placeholder="e.g., What are the main points discussed in the document?",
-            help="Type your question here. Be as specific as possible for better results."
+            placeholder="e.g., What is the optimal pH range for Tilapia and Mint in an aquaponic cycle?",
+            help="Type your question here. Be as specific as possible regarding sensors, thresholds, or configurations."
         )
         
         # Advanced options
-        with st.expander("⚙️ Advanced Options"):
+        with st.expander("⚙️ Advanced Hyperparameters"):
             col1, col2 = st.columns(2)
             
             with col1:
                 num_results = st.slider(
-                    "Number of context documents",
+                    "Context Window Chunks (k)",
                     min_value=app_config.SEARCH_LIMIT_MIN,
                     max_value=app_config.SEARCH_LIMIT_MAX,
                     value=app_config.SEARCH_LIMIT_DEFAULT,
-                    help="Number of relevant documents to retrieve for context"
+                    help="Number of relevant document blocks to retrieve and inject into the prompt"
                 )
             
             with col2:
                 show_context = st.checkbox(
-                    "Show retrieved context",
+                    "Display Retrieved Vector Context",
                     value=False,
-                    help="Display the documents used to generate the answer"
+                    help="Display the exact raw text chunks used to generate the answer"
                 )
         
         # Ask button
@@ -75,7 +75,7 @@ def render():
                 ui_components.show_warning("Please enter a question!")
             else:
                 # Show loading
-                with ui_components.show_loading("🤔 Thinking... Generating answer..."):
+                with ui_components.show_loading("🤔 Retrieving context & generating answer..."):
                     result = api_client.ask_question(
                         project_id=project_id,
                         question=question,
@@ -91,7 +91,7 @@ def render():
                     
                     # Display answer
                     st.markdown("---")
-                    st.markdown("### 🎯 Answer")
+                    st.markdown("### 🎯 System Insight Response")
                     
                     # Render as chat message
                     ui_components.render_chat_message("user", question)
@@ -112,12 +112,12 @@ def render():
                     
                     # Show context if requested
                     if show_context:
-                        with st.expander("📄 View Full Context"):
-                            st.markdown("**Full Prompt:**")
+                        with st.expander("📄 View Full Augmented Prompt Payload"):
+                            st.markdown("**Full Injected Prompt:**")
                             st.text_area("Prompt", value=full_prompt, height=200, disabled=True)
                             
                             if chat_history:
-                                st.markdown("**Chat History:**")
+                                st.markdown("**Injected Chat History:**")
                                 st.json(chat_history)
                     
                     # Download option
@@ -125,17 +125,18 @@ def render():
                     col1, col2, col3 = st.columns([1, 2, 1])
                     with col2:
                         download_text = f"""
+Lumora Smart Aquaponic System Log
 Question: {question}
 
 Answer: {answer}
 
 Timestamp: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-Project ID: {project_id}
+Project Cycle ID: {project_id}
                         """
                         st.download_button(
-                            label="💾 Download Q&A",
+                            label="💾 Download Insight Log",
                             data=download_text,
-                            file_name=f"qa_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+                            file_name=f"lumora_qa_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
                             mime="text/plain",
                             use_container_width=True
                         )
@@ -146,18 +147,18 @@ Project ID: {project_id}
     # TAB 2: SEARCH DOCUMENTS
     # ========================================================================
     with tab2:
-        st.markdown("### Search Your Documents")
+        st.markdown("### Semantic Vector Query")
         
         ui_components.show_info(
-            "Search through your indexed documents using semantic search. "
-            "Find relevant chunks based on meaning, not just keywords."
+            "Query the vector space using embeddings distance. "
+            "Retrieves raw textual blocks based on semantic similarity weights."
         )
         
         # Search input
         search_query = st.text_input(
-            "Search Query",
-            placeholder="e.g., information about payment methods",
-            help="Enter your search query"
+            "Vector Query String",
+            placeholder="e.g., Water temperature thresholds for nitrification bacteria",
+            help="Enter your operational or research query"
         )
         
         # Search options
@@ -165,30 +166,30 @@ Project ID: {project_id}
         
         with col1:
             search_limit = st.slider(
-                "Number of results",
+                "Hits Limit",
                 min_value=app_config.SEARCH_LIMIT_MIN,
                 max_value=app_config.SEARCH_LIMIT_MAX,
                 value=app_config.SEARCH_LIMIT_DEFAULT,
-                help="Maximum number of search results to return"
+                help="Maximum number of semantic chunks to display"
             )
         
         with col2:
             show_metadata = st.checkbox(
-                "Show metadata",
+                "Display Payload Metadata",
                 value=True,
-                help="Display metadata information for each result"
+                help="Show technical file details, chunk hashes, and indices"
             )
         
         # Search button
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            search_button = st.button("🔍 Search", use_container_width=True)
+            search_button = st.button("🔍 Execute Search", use_container_width=True)
         
         if search_button:
             if not search_query.strip():
-                ui_components.show_warning("Please enter a search query!")
+                ui_components.show_warning("Please enter a query!")
             else:
-                with ui_components.show_loading("Searching documents..."):
+                with ui_components.show_loading("Querying Qdrant index..."):
                     result = api_client.search_index(
                         project_id=project_id,
                         query=search_query,
@@ -201,10 +202,10 @@ Project ID: {project_id}
                     results = result.get("results", [])
                     
                     if not results:
-                        ui_components.show_warning("No results found for your query.")
+                        ui_components.show_warning("No semantic points matched the query.")
                     else:
                         st.markdown("---")
-                        st.markdown(f"### 📊 Search Results ({len(results)} found)")
+                        st.markdown(f"### 📊 Vector Matches ({len(results)} points resolved)")
                         
                         # Display results
                         for i, res in enumerate(results, 1):
@@ -212,33 +213,33 @@ Project ID: {project_id}
                             text = res.get('chunk_text', '')
                             metadata = res.get('chunk_metadata', {})
                             
-                            with st.expander(f"📝 Result {i} - Relevance Score: {score:.4f}", expanded=(i==1)):
-                                st.markdown("**Content:**")
+                            with st.expander(f"📝 Block {i} - Cosine Similarity Score: {score:.4f}", expanded=(i==1)):
+                                st.markdown("**Retrieved Segment:**")
                                 st.write(text)
                                 
                                 if show_metadata and metadata:
                                     st.markdown("---")
-                                    st.markdown("**Metadata:**")
+                                    st.markdown("**Node Metadata Payload:**")
                                     st.json(metadata)
                         
                         # Export results option
                         st.markdown("---")
                         col1, col2, col3 = st.columns([1, 2, 1])
                         with col2:
-                            export_text = f"Search Query: {search_query}\n\n"
-                            export_text += f"Results: {len(results)}\n\n"
+                            export_text = f"Lumora Semantic Search Query: {search_query}\n\n"
+                            export_text += f"Resolved Points: {len(results)}\n\n"
                             export_text += "="*50 + "\n\n"
                             
                             for i, res in enumerate(results, 1):
-                                export_text += f"Result {i}:\n"
-                                export_text += f"Score: {res.get('score', 0):.4f}\n"
-                                export_text += f"Text: {res.get('chunk_text', '')}\n"
+                                export_text += f"Point Vector {i}:\n"
+                                export_text += f"Distance Score: {res.get('score', 0):.4f}\n"
+                                export_text += f"Segment Text: {res.get('chunk_text', '')}\n"
                                 export_text += "\n" + "="*50 + "\n\n"
                             
                             st.download_button(
-                                label="💾 Export Results",
+                                label="💾 Export Vector Hits",
                                 data=export_text,
-                                file_name=f"search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+                                file_name=f"vector_hits_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
                                 mime="text/plain",
                                 use_container_width=True
                             )
@@ -249,11 +250,11 @@ Project ID: {project_id}
     # TAB 3: CHAT HISTORY
     # ========================================================================
     with tab3:
-        st.markdown("### 💬 Chat History")
+        st.markdown("### 💬 System Conversation Logs")
         
         if not st.session_state.get('chat_history'):
             ui_components.show_info(
-                "No chat history yet. Start asking questions in the 'Ask Questions' tab!"
+                "No previous local logs recorded for this instance. Query the expert to log data."
             )
         else:
             # Filter options
@@ -261,19 +262,19 @@ Project ID: {project_id}
             
             with col1:
                 filter_project = st.checkbox(
-                    "Show only current project",
+                    "Isolate current Cycle/Project only",
                     value=True,
-                    help="Filter history for current project only"
+                    help="Filter history for active project only"
                 )
             
             with col2:
                 sort_order = st.selectbox(
-                    "Sort order",
+                    "Sequence",
                     options=["Newest first", "Oldest first"]
                 )
             
             with col3:
-                if st.button("🗑️ Clear History"):
+                if st.button("🗑️ Purge Local Logs"):
                     st.session_state.chat_history = []
                     st.rerun()
             
@@ -292,9 +293,9 @@ Project ID: {project_id}
             
             # Display history
             if not history:
-                ui_components.show_info("No chat history for current filters.")
+                ui_components.show_info("No conversation logs match the criteria.")
             else:
-                st.markdown(f"**Total Conversations: {len(history)}**")
+                st.markdown(f"**Total Historical Runs: {len(history)}**")
                 st.markdown("---")
                 
                 for i, qa in enumerate(history, 1):
@@ -303,17 +304,17 @@ Project ID: {project_id}
                     answer = qa.get('answer', '')
                     qa_project_id = qa.get('project_id', 'N/A')
                     
-                    with st.expander(f"💬 Conversation {i} - {timestamp} (Project: {qa_project_id})"):
+                    with st.expander(f"💬 Protocol {i} - {timestamp} (Cycle: #{qa_project_id})"):
                         ui_components.render_chat_message("user", question)
                         ui_components.render_chat_message("assistant", answer)
                         
                         # Show full details button
-                        if st.button(f"View Details", key=f"details_{i}"):
+                        if st.button(f"View Vector Blueprint", key=f"details_{i}"):
                             st.markdown("---")
-                            st.markdown("**Full Context:**")
+                            st.markdown("**Inference Pipeline Graph Details:**")
                             st.json({
                                 'timestamp': timestamp,
-                                'project_id': qa_project_id,
+                                'project_cycle_id': qa_project_id,
                                 'full_prompt': qa.get('full_prompt', ''),
                                 'chat_history': qa.get('chat_history', [])
                             })
@@ -321,27 +322,18 @@ Project ID: {project_id}
     st.markdown("---")
     
     # Help section
-    with st.expander("❓ Tips for Better Results"):
+    with st.expander("❓ Optimizing Expert Inference Outputs"):
         st.markdown("""
-        ### Getting the Best Answers
+        ### Strategic Knowledge Retrieval Guide
         
-        **Ask Clear Questions:**
-        - Be specific and clear in your questions
-        - Include relevant context if needed
-        - Avoid ambiguous or overly broad questions
+        **Specify Hardware/Biological Node Rules:**
+        - Mention exact sensor models (e.g., pH, EC analog probes) or plant types when querying calibrations.
+        - Avoid generic phrasing to skip prompt pollution.
         
-        **Search Effectively:**
-        - Use natural language in your queries
-        - Try different phrasings if you don't get good results
-        - Semantic search works on meaning, not just keywords
+        **Semantic Optimization:**
+        - Write descriptive multi-word query sentences instead of isolated keywords to increase Cosine similarity resolution against Qdrant indices.
         
-        **Adjust Parameters:**
-        - Increase context documents for complex questions
-        - Use fewer documents for simple, specific queries
-        - Check retrieved context if answers seem off-topic
-        
-        **Best Practices:**
-        - Process and index documents before querying
-        - Use appropriate chunk sizes during processing
-        - Keep your document collection organized
+        **Pipeline Adjustments:**
+        - Increase context limits when analyzing multi-page sensor tracking datasheets.
+        - Check retrieved raw context chunks if you observe hallucination trends in inference outputs.
         """)
