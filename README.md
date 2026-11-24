@@ -587,14 +587,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Qdrant** - Vector database
 - **DuckDuckGo** - Web search API
 - **OpenAI** - LLM and embeddings
-- **e& Egypt** - UI design inspiration
-
 ---
 
 <div align="center">
 
 **⭐ Star this repo if you find it useful!**
 
-Made with ❤️ by USuf Gomaa
+Made with ❤️ by Yusuf Gomaa
 
 </div>
