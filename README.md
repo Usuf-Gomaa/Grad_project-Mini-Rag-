@@ -574,9 +574,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Hossam Medhat**
-- GitHub: [@hossammedhat81](https://github.com/hossammedhat81)
-- Repository: [Mini_RAG](https://github.com/hossammedhat81/Mini_RAG)
+**Yusuf Gomaa**
+- GitHub: [@Usuf-Gomaa](https://github.com/Usuf-Gomaa)
+- Repository: [Mini_RAG](https://github.com/Usuf-Gomaa/Grad_project-Mini-Rag-)
 
 ---
 
